@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="it"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le aziende che resistono - Radiografia</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:#fff;color:#1e293b;font-size:15px;-webkit-text-size-adjust:100%}
+.rb3{height:3px;background:linear-gradient(90deg,#7B2D8E,#2855A0,#0097C7,#3AA335,#F5C300,#E8731A,#D32030)}
+.hdr{border-bottom:1px solid #e2e8f0;padding:24px 24px 18px}
+.mx{max-width:1100px;margin:0 auto}
+.sub{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#FF8227;margin-bottom:6px}
+h1{font-size:26px;font-weight:700;margin:0 0 6px}
+.dsc{font-size:14px;color:#64748b;max-width:650px;line-height:1.5}
+.hdr-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hdr-left{flex:1;min-width:0}
+.hdr-btns{display:flex;gap:8px;flex-shrink:0;margin-top:8px;flex-wrap:wrap}
+.drawer-btn{font-family:Poppins,sans-serif;font-size:13px;font-weight:600;padding:10px 16px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;color:#FF8227;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:all .2s}
+.drawer-btn:hover{background:#f8f9fb}
+.drawer-btn:focus-visible{outline:2px solid #FF8227;outline-offset:2px}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:1000;opacity:0;visibility:hidden;transition:all .3s}
+.drawer-overlay.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;width:460px;max-width:92vw;height:100vh;background:#fff;z-index:1001;transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,0.1);transform:translateX(110%)}
+.drawer.open{transform:translateX(0)}
+.drawer-head{padding:20px 20px 14px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.drawer-head h2{font-size:16px;font-weight:700;flex:1}
+.drawer-close{background:none;border:none;font-size:22px;cursor:pointer;color:#94a3b8;padding:4px 8px}
+.drawer-close:hover{color:#1e293b}
+.drawer-search{padding:14px 20px;border-bottom:1px solid #f1f5f9;flex-shrink:0}
+.drawer-search input{font-family:Poppins,sans-serif;font-size:14px;width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:6px;outline:none}
+.drawer-search input:focus{border-color:#FF8227}
+.drawer-list{flex:1;overflow-y:auto;padding:0}
+.drawer-body{flex:1;overflow-y:auto;padding:20px;-webkit-overflow-scrolling:touch}
+.dl-item{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid #f1f5f9;font-size:13px}
+.dl-item:hover{background:#f8f9fb}
+.dl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dl-name{flex:1;color:#1e293b}
+.dl-meta{font-size:11px;color:#94a3b8;text-align:right;min-width:80px}
+.dl-count{padding:14px 20px;font-size:12px;color:#94a3b8;border-top:1px solid #e2e8f0;text-align:center;flex-shrink:0}
+.dl-hidden{display:none}
+.tabs{display:flex;gap:0;margin-top:14px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
+.tab{font-family:Poppins,sans-serif;font-size:13px;font-weight:600;padding:12px 16px;border:none;border-right:1px solid #e2e8f0;cursor:pointer;background:#fff;color:#64748b;transition:all .2s;flex:1;text-align:center;line-height:1.3}
+.tab:last-child{border-right:none}
+.tab:focus-visible{outline:2px solid #FF8227;outline-offset:-2px}
+.tab.on{background:#FF8227;color:#fff}
+.tab small{display:block;font-size:10px;font-weight:400;margin-top:2px;opacity:0.7}
+.ct{max-width:1100px;margin:0 auto;padding:24px 24px 20px}
+.top-row{display:flex;gap:24px;margin-bottom:28px;align-items:flex-start}
+.pie-wrap{flex-shrink:0;position:relative;width:420px}
+.pie-svg{width:100%;height:auto}
+.pie-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.pie-center b{font-size:28px;font-weight:700;display:block;line-height:1;color:#1e293b}
+.pie-center span{font-size:11px;color:#94a3b8}
+.crit-box{flex:1;display:flex;flex-direction:column;gap:14px;min-width:0}
+.crit-used{padding:0 0 0 16px;border-left:3px solid #FF8227}
+.crit-used h4{font-size:12px;font-weight:700;color:#FF8227;margin:0 0 4px;text-transform:uppercase;letter-spacing:1px}
+.crit-used p{font-size:14px;color:#1e293b;margin:0;line-height:1.5}
+.crit-alt{padding:0 0 0 16px;border-left:3px solid #3AA335}
+.crit-alt h4{font-size:12px;font-weight:700;color:#3AA335;margin:0 0 10px;text-transform:uppercase;letter-spacing:1px}
+.crit-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.crit-item:last-child{margin:0}
+.crit-item .ci-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.crit-item .ci-title{font-size:13px;font-weight:600;color:#1e293b}
+.crit-item .ci-desc{font-size:12px;color:#64748b;margin-top:2px;line-height:1.4}
+.st{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;margin-bottom:12px}
+.cr{cursor:pointer;background:#fff;border-bottom:1px solid #f1f5f9;padding:12px 0;margin-bottom:0;transition:all .2s}
+.cr:hover{background:#f8f9fb}
+.cr:focus-visible{outline:2px solid #FF8227;outline-offset:2px}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.cn{font-size:14px;font-weight:600;flex:1}
+.cref{font-size:11px;color:#94a3b8;margin-left:8px}
+.cc{font-size:20px;font-weight:700;min-width:36px;text-align:right}
+.bb{height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px}
+.dt{margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9;font-size:13px;color:#64748b;line-height:1.6;display:none;column-gap:20px}
+.ins{margin-top:20px;padding:0 0 0 16px;border-left:3px solid #FF8227}
+.ins h3{font-size:14px;font-weight:700;color:#FF8227;margin:0 0 6px}
+.ins p{font-size:14px;color:#334155;line-height:1.6;margin:0}
+#pieTip{display:none;position:absolute;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;box-shadow:0 4px 12px rgba(0,0,0,0.08);pointer-events:none;z-index:10;font-family:Poppins,sans-serif;min-width:180px}
+.tz{border-bottom:1px solid #f1f5f9;padding:16px 0;cursor:pointer;transition:all .2s}
+.tz:hover{background:#f8f9fb}
+.tz:last-child{border:none}
+.tz-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.tz-icon{font-size:28px;flex-shrink:0}
+.tz-info{flex:1}
+.tz-name{font-size:16px;font-weight:700;color:#1e293b}
+.tz-desc{font-size:12px;color:#94a3b8;margin-top:2px;line-height:1.4}
+.tz-nums{text-align:right;min-width:80px}
+.tz-count{font-size:28px;font-weight:700;line-height:1}
+.tz-pct{font-size:12px;color:#94a3b8}
+.tz-bar{height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.tz-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.tz-highlight{margin-top:20px;padding:16px;background:#DC262604;border-bottom:none}
+.tz-highlight .tz-count{color:#DC2626}
+/* Economy tab */
+.eco-card{border-bottom:1px solid #f1f5f9;padding:20px 0;margin-bottom:0}
+.eco-card:last-of-type{border:none}
+.eco-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.eco-icon{font-size:24px}
+.eco-title{font-size:16px;font-weight:700;flex:1}
+.eco-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.eco-stat{padding:10px 0}
+.eco-stat-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:4px}
+.eco-stat-val{font-size:20px;font-weight:700;line-height:1.2}
+.eco-stat-sub{font-size:11px;color:#94a3b8;margin-top:2px}
+.eco-highlight{padding:12px 0;margin-bottom:8px;border-top:1px solid #f1f5f9}
+.eco-highlight-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:8px}
+.eco-az{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f8f9fb;font-size:12px}
+.eco-az:last-child{border:none}
+.eco-az-name{font-weight:600;color:#1e293b;flex:1}
+.eco-az-data{color:#64748b}
+.eco-az-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
+.eco-az-badge.no{background:#DC262608;color:#DC2626}
+.eco-az-badge.si{background:#3AA33508;color:#3AA335}
+.eco-verdict{font-size:13px;color:#64748b;line-height:1.5;margin-top:14px;padding-top:14px;border-top:1px solid #f1f5f9;font-style:italic}
+.eco-sources{margin-top:8px;font-size:11px;color:#94a3b8;line-height:1.5}
+/* Methodology */
+.meth{padding:20px 0;border-top:1px solid #e2e8f0;margin-top:12px}
+.meth h3{font-size:14px;font-weight:700;color:#1e293b;margin:0 0 10px}
+.meth p{font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px}
+.meth p:last-child{margin:0}
+.meth a{color:#FF8227}
+.hid{display:none}
+.eco-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:900px){
+  .top-row{flex-direction:column;align-items:stretch}
+  .pie-wrap{width:100%;max-width:420px;margin:0 auto}
+  .crit-box{width:100%}
+  .eco-grid{grid-template-columns:1fr 1fr}
+  .eco-chart-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  body{font-size:16px}.hdr{padding:18px 16px 14px}h1{font-size:21px}.sub{font-size:10px;letter-spacing:2px}.dsc{font-size:13px}
+  .tab{font-size:11px;padding:10px 8px}.tab small{font-size:9px}.ct{padding:16px 14px}.pie-wrap{max-width:320px}.pie-center b{font-size:24px}
+  .crit-used p,.crit-alt .ci-desc{font-size:13px}.cr{padding:10px 0}.cn{font-size:13px}.cc{font-size:18px}
+  .dt{font-size:12px;column-count:1!important}
+  .st{font-size:11px;letter-spacing:1.5px}
+  .tz{padding:12px 0}.tz-icon{font-size:24px}.tz-name{font-size:14px}.tz-count{font-size:24px}
+  .eco-card{padding:16px 0}.eco-stat-val{font-size:16px}.eco-grid{grid-template-columns:1fr}.drawer-btn{font-size:11px;padding:8px 12px}
+  .hdr-btns{gap:6px}
+}
+@media(max-width:400px){
+  h1{font-size:18px}.tab{font-size:10px;padding:8px 6px}.tab small{font-size:8px}.pie-wrap{max-width:280px}.pie-center b{font-size:20px}
+  .crit-item .ci-title{font-size:12px}.tz-count{font-size:20px}
+  .hdr-btns{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="mx">
+<div class="hdr-row">
+<div class="hdr-left">
+<div class="sub">Coalizione di centrosinistra 2026 &mdash; Analisi &ldquo;Le aziende che resistono&rdquo;</div>
+<h1>383 pergamene, una radiografia</h1>
+<p class="dsc">Dove vanno i riconoscimenti dell&rsquo;Amministrazione Olivetti? Chi &egrave; dentro, chi resta fuori, e cosa ci dice sulla visione economica di questa giunta.</p>
+</div>
+<button class="drawer-btn" onclick="openDrawer('aziende')" aria-label="Elenco aziende premiate"><span aria-hidden="true">&#128196;</span> Aziende premiate</button>
+</div>
+<div class="tabs" role="tablist">
+<button class="tab on" role="tab" aria-selected="true" id="tabCat" aria-controls="vcat" onclick="sw('cat')">Categorie<small>Dove vanno le pergamene</small></button>
+<button class="tab" role="tab" aria-selected="false" id="tabTer" aria-controls="vter" onclick="sw('ter')">Territorio<small>Centro vs borghi</small></button>
+<button class="tab" role="tab" aria-selected="false" id="tabEco" aria-controls="veco" onclick="sw('eco')">Economia reale<small>Dati vs pergamene</small></button>
+</div>
+</div></div>
+
+<!-- DRAWER: AZIENDE -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawerAziende" role="dialog" aria-label="Elenco aziende premiate">
+<div class="drawer-head"><h2>383 aziende premiate</h2><button class="drawer-close" onclick="closeDrawer()" aria-label="Chiudi">&#10005;</button></div>
+<div class="drawer-search"><input type="text" id="drawerSearch" placeholder="Cerca nell'elenco..." aria-label="Cerca azienda"></div>
+<div class="drawer-list" id="drawerList"></div>
+<div class="dl-count" id="drawerCount"></div>
+</div>
+
+<!-- DRAWER: DOSSIER -->
+<div class="drawer" id="drawerDossier" role="dialog" aria-label="Dossier economia reale" style="width:540px">
+<div class="drawer-head"><h2>Dossier: Economia Reale</h2><button class="drawer-close" onclick="closeDrawer()" aria-label="Chiudi">&#10005;</button></div>
+<div class="drawer-body" id="dossierBody"></div>
+</div>
+
+<div class="ct">
+<!-- TAB 1: CATEGORIE -->
+<div id="vcat" role="tabpanel" aria-labelledby="tabCat">
+<div class="top-row">
+<div class="pie-wrap"><svg id="pie" class="pie-svg" viewBox="0 0 420 300" role="img" aria-label="Distribuzione per settore"></svg><div class="pie-center"><b>383</b><span>pergamene</span></div><div id="pieTip"></div></div>
+<div class="crit-box">
+<div class="crit-used"><h4>&#9888;&#65039; Il criterio di Olivetti</h4><p><strong>20 anni di apertura</strong> &mdash; un dato puramente anagrafico. Nessuna valutazione di merito, nessun regolamento, nessuna commissione. Basta esistere.</p></div>
+<div class="crit-alt"><h4>&#10004;&#65039; I criteri che si potevano usare</h4>
+<div class="crit-item"><span class="ci-icon" aria-hidden="true">&#128188;</span><div><div class="ci-title">Investimento nel territorio</div><div class="ci-desc">Assunzioni stabili, formazione, contratti regolari.</div></div></div>
+<div class="crit-item"><span class="ci-icon" aria-hidden="true">&#127793;</span><div><div class="ci-title">Innovazione e sostenibilit&agrave;</div><div class="ci-desc">Transizione digitale, economia circolare, efficienza energetica.</div></div></div>
+<div class="crit-item"><span class="ci-icon" aria-hidden="true">&#129309;</span><div><div class="ci-title">Impatto sociale</div><div class="ci-desc">Inclusione, accessibilit&agrave;, rapporto con la comunit&agrave;.</div></div></div>
+</div></div></div>
+<div class="st">Ripartizione per settore economico</div>
+<div id="cats"></div>
+</div>
+
+<!-- TAB 2: TERRITORIO -->
+<div id="vter" class="hid" role="tabpanel" aria-labelledby="tabTer">
+<div class="st">Distribuzione delle 383 pergamene nel territorio</div>
+<div id="zones"></div>
+<div class="ins" style="margin-top:20px"><h3>Il dato politico</h3><p>Il <strong>67%</strong> delle pergamene va al centro storico e al lungomare. I <strong style="color:#3AA335">borghi e le frazioni</strong> &mdash; dove vive met&agrave; della popolazione &mdash; raccolgono il <strong style="color:#DC2626">3,4%</strong> dei riconoscimenti.</p></div>
+</div>
+
+<!-- TAB 3: ECONOMIA REALE -->
+<div id="veco" class="hid" role="tabpanel" aria-labelledby="tabEco">
+<div class="st">Pergamene vs economia reale</div>
+<p style="font-size:14px;color:#64748b;margin-bottom:20px;line-height:1.5">Per ogni settore, confrontiamo tre parametri: pergamene assegnate, fatturato e occupazione. Dati economici da fonti camerali e istituzionali 2024.</p>
+
+<div id="ecoChart" style="margin-bottom:20px"></div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#127907;</span><div class="eco-title">Filiera Ittica <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 03, 46.38</span></div><span class="eco-badge" style="background:#DC262612;color:#DC2626">Pergamene Olivetti 2026: 0</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 45-55 M</div><div class="eco-stat-sub">pesca + commercializzazione, Senigallia</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~350</div><div class="eco-stat-sub">dipendenti + soci imbarcati + indotto</div></div>
+</div>
+<div class="eco-highlight"><div class="eco-highlight-title">Aziende da segnalare &mdash; criterio 20 anni</div>
+<div class="eco-az"><span class="eco-az-name">CO.PE.MO. Soc. Coop.</span><span class="eco-az-data">1973 (53 anni) &middot; &euro;40,3M &middot; 63 dip. + soci</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+</div>
+<div class="eco-verdict">CO.PE.MO. &egrave; il leader assoluto del medio Adriatico per molluschi e mitili. Fattura &euro;40,3M (+13,4%), opera da 53 anni, &egrave; una cooperativa. Zero pergamene per l&rsquo;intera filiera ittica.</div>
+<div class="eco-sources">Fonti: Bilancio CO.PE.MO. 2024; Registro Imprese; stima indotto da fonti camerali.</div>
+</div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#128187;</span><div class="eco-title">Digitale <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 62-63</span></div><span class="eco-badge" style="background:#D9770612;color:#D97706">Pergamene Olivetti 2026: 1</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 89 M*</div><div class="eco-stat-sub">*somma aziende principali note</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~310*</div><div class="eco-stat-sub">*somma aziende principali note</div></div>
+</div>
+<div class="eco-highlight"><div class="eco-highlight-title">Aziende da segnalare &mdash; criterio 20 anni</div>
+<div class="eco-az"><span class="eco-az-name">Namirial S.p.A.</span><span class="eco-az-data">2000 (26 anni) &middot; &euro;74,2M</span><span class="eco-az-badge si">PREMIATA</span></div>
+<div class="eco-az"><span class="eco-az-name">Pluservice S.r.l.</span><span class="eco-az-data">1988 (38 anni) &middot; &euro;14,8M &middot; 146 dip.</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+<div class="eco-az"><span class="eco-az-name">Ranocchi S.r.l.</span><span class="eco-az-data">2002 (24 anni) &middot; software gestionale</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+</div>
+<div class="eco-verdict">Tutte e tre superano i 20 anni. Il polo digitale ha rilievo nazionale. Pluservice &egrave; cresciuta da 107 a 146 dipendenti in 5 anni. Premiate: solo Namirial.</div>
+<div class="eco-sources">Fonti: Abbrevia X, Top-500 provincia Ancona 2024; Ufficio Camerale; ReportAziende.it.</div>
+</div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#127981;</span><div class="eco-title">Manifattura <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 10-33</span></div><span class="eco-badge" style="background:#2c3e5012;color:#2c3e50">Pergamene Olivetti 2026: 32</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 475-520 M</div><div class="eco-stat-sub">stima aggregata, comune di Senigallia</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~2.400</div><div class="eco-stat-sub">stima aggregata, comune di Senigallia</div></div>
+</div>
+<div class="eco-highlight"><div class="eco-highlight-title">Aziende da segnalare &mdash; criterio 20 anni</div>
+<div class="eco-az"><span class="eco-az-name">Ortoverde S.C.A.P.A.</span><span class="eco-az-data">manifattura alimentare &middot; &euro;~110M &middot; ~500 dip.*</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+<div class="eco-az"><span class="eco-az-name">Fiorini International S.p.A.</span><span class="eco-az-data">1996 (30 anni) &middot; &euro;128,6M &middot; ~400 dip.</span><span class="eco-az-badge si">PREMIATA</span></div>
+<div class="eco-az"><span class="eco-az-name">Fiorini Packaging S.p.A.</span><span class="eco-az-data">1947 (79 anni) &middot; &euro;70,5M &middot; ~150 dip.</span><span class="eco-az-badge si">PREMIATA</span></div>
+</div>
+<div class="eco-verdict">La manifattura &egrave; la spina dorsale del fatturato: mezzo miliardo di euro. Ortoverde, da sola, pesa il 20-25% del fatturato industriale comunale ed &egrave; una cooperativa. Le Fiorini sono premiate. Ortoverde no. <span style="font-size:11px;color:#94a3b8">*Dato occupazionale Ortoverde fortemente stagionale.</span></div>
+<div class="eco-sources">Fonti: ISTAT ASIA; Camera di Commercio Marche; Abbrevia X Top-500; Bilanci 2024/25 AIDA; siti ufficiali.</div>
+</div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#127806;</span><div class="eco-title">Agricoltura <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 01-03</span></div><span class="eco-badge" style="background:#D9770612;color:#D97706">Pergamene Olivetti 2026: 3</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 85 M</div><div class="eco-stat-sub">comune di Senigallia, 485 imprese</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~980</div><div class="eco-stat-sub">comune di Senigallia</div></div>
+</div>
+<div class="eco-verdict">485 imprese agricole attive, &euro;85M di fatturato, quasi 1.000 occupati. In calo del 21,6% in provincia dal 2018. Tre filiere di eccellenza (biologico, vitivinicolo, frantoiano). 3 pergamene.</div>
+<div class="eco-sources">Fonti: Censimento Agricoltura / CO.PE.MO. 2025; Confartigianato e CNA, Bilancio 2024.</div>
+</div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#9968;&#65039;</span><div class="eco-title">Turismo <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 55-56</span></div><span class="eco-badge" style="background:#0097C712;color:#0097C7">Pergamene Olivetti 2026: 81</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 205 M</div><div class="eco-stat-sub">alloggio e ristorazione, 518 imprese</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~3.450*</div><div class="eco-stat-sub">*picco stagionale, comune di Senigallia</div></div>
+</div>
+<div class="eco-verdict">Prima destinazione delle Marche: 225.317 arrivi e 1.013.443 presenze nel 2024. Il settore pi&ugrave; premiato e il pi&ugrave; grande per occupazione &mdash; ma il 75% delle assunzioni &egrave; precario. Le pergamene premiano la quantit&agrave;, non la qualit&agrave; del lavoro.</div>
+<div class="eco-sources">Fonti: Rapporto Turismo Marche 2024/25; Regione Marche, Osservatorio Turistico; CGIL-IRES Marche.</div>
+</div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#129309;</span><div class="eco-title">Terzo settore <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 87-88</span></div><span class="eco-badge" style="background:#DC262612;color:#DC2626">Pergamene Olivetti 2026: 0</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 72 M</div><div class="eco-stat-sub">42 organizzazioni, comune di Senigallia</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~1.450</div><div class="eco-stat-sub">dipendenti + volontari strutturati</div></div>
+</div>
+<div class="eco-highlight"><div class="eco-highlight-title">Aziende da segnalare &mdash; criterio 20 anni</div>
+<div class="eco-az"><span class="eco-az-name">COOSS Marche</span><span class="eco-az-data">1979 (47 anni) &middot; &euro;90M+ regionale</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+<div class="eco-az"><span class="eco-az-name">Casa della Giovent&ugrave;</span><span class="eco-az-data">1985 (41 anni) &middot; inclusione sociale</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+<div class="eco-az"><span class="eco-az-name">H Muta coop. sociale</span><span class="eco-az-data">1982 (44 anni) &middot; assistenza disabili</span><span class="eco-az-badge no">NON PREMIATA</span></div>
+</div>
+<div class="eco-verdict">Tre cooperative con oltre 40 anni ciascuna. Rispondono tutte al criterio dei 20 anni. Nessun riconoscimento. Assistono oltre 2.000 persone quasi giornalmente.</div>
+<div class="eco-sources">Fonti: Siti ufficiali; Regione Marche, Albo Coop. Sociali 2025; ACLI Marche; Comune di Senigallia.</div>
+</div>
+
+<div class="eco-card">
+<div class="eco-head"><span class="eco-icon" aria-hidden="true">&#128722;</span><div class="eco-title">Commercio <span style="font-size:11px;color:#94a3b8;font-weight:400">ATECO 47</span></div><span class="eco-badge" style="background:#7B2D8E12;color:#7B2D8E">Pergamene Olivetti 2026: 90</span></div>
+<div class="eco-grid">
+<div class="eco-stat"><div class="eco-stat-label">Fatturato settore</div><div class="eco-stat-val">&euro; 305 M</div><div class="eco-stat-sub">742 imprese, comune di Senigallia</div></div>
+<div class="eco-stat"><div class="eco-stat-label">Occupazione settore</div><div class="eco-stat-val">~2.180</div><div class="eco-stat-sub">comune di Senigallia</div></div>
+</div>
+<div class="eco-verdict">Categoria pi&ugrave; premiata: 90 pergamene su 742 imprese attive. Ma il settore perde l&rsquo;11% di imprese in 6 anni. Crisi strutturale da GDO, e-commerce e calo del potere d&rsquo;acquisto. Una pergamena per 20 anni non basta a chi sta chiudendo.</div>
+<div class="eco-sources">Fonti: ISTAT ASIA / Camera di Commercio 2024-25; Confartigianato e CNA; CGIL-IRES Marche.</div>
+</div>
+
+<div class="ins" style="margin-top:20px"><h3>La sintesi</h3><p>Le pergamene di Olivetti fotografano <strong>chi &egrave; sopravvissuto</strong>, non chi crea valore. Settori che generano centinaia di milioni di fatturato e centinaia di posti di lavoro stabili (filiera ittica, digitale, terzo settore) sono ignorati &mdash; <strong>pur rispondendo al criterio dei 20 anni</strong> scelto dalla stessa giunta. CO.PE.MO. ha 53 anni, COOSS Marche 47, Pluservice 38. Il settore pi&ugrave; premiato (commercio, 90 pergamene) &egrave; quello in maggiore crisi strutturale. Un&rsquo;amministrazione che guarda avanti premia l&rsquo;impatto, non l&rsquo;anzianit&agrave;.</p></div>
+</div>
+</div>
+
+<!-- METHODOLOGY (always open) -->
+<div class="mx" style="padding:0 24px 32px">
+<div class="meth">
+<h3>Nota metodologica</h3>
+<p><strong>Fonte dei dati (pergamene).</strong> Elenco ufficiale trasmesso dal Comune di Senigallia in risposta all&rsquo;interrogazione consiliare del consigliere Dario Romano (2 settembre 2025). 383 aziende classificate in 10 settori economici e 5 zone territoriali.</p>
+<p><strong>Fonte dei dati (economia reale).</strong> ISTAT ASIA (Archivio Statistico Imprese Attive); Camera di Commercio delle Marche / StockView Infocamere; bilanci aziendali AIDA Bureau van Dijk 2024-25; <a href="https://x.abbrevia.it/ricerca-aziende-italiane/marche/ancona/top-500" target="_blank">Abbrevia X Top-500 Ancona</a>; <a href="https://statistica.regione.marche.it/Portals/0/Settori/attivita_produttive_e_ict/e3214c17-Report%20Imprese%20Marche.pdf" target="_blank">Report Imprese Regione Marche</a>; <a href="https://confartigianatoimprese.net/confartigianato-e-cna-quadro-complesso-dal-bilancio-2024-in-cui-fondamentale-e-il-ruolo-di-rappresentanza/" target="_blank">Confartigianato/CNA 2024-26</a>; <a href="https://www.marche.cgil.it/studi-ires/" target="_blank">CGIL-IRES Marche</a>; <a href="https://www.regione.marche.it/portals/0/Lavoro_Formazione_Professionale/Osservatorio%20Lavoro/Lavoro%20Flash%20%20n.1%20_Dicembre2024.pdf" target="_blank">Osservatorio Lavoro Marche</a>; Censimento Agricoltura 2025; Bilanci Sociali aggregati 2025. Anni di fondazione da Registro Imprese e siti ufficiali. Per i settori a frammentazione elevata, il fatturato &egrave; una proiezione basata sul valore aggiunto per addetto della provincia applicato alla demografia d&rsquo;impresa locale.</p>
+<p><strong>Report completo.</strong> <a href="Mappatura_economia_Senigallia_e_Valli.pdf">Scarica il dossier di ricerca (PDF)</a> &mdash; oppure <a href="#" onclick="event.preventDefault();openDrawer('dossier')">leggilo qui</a>.</p>
+<p><strong>Classificazione settoriale.</strong> 10 settori allineati al programma di coalizione &ldquo;Qualit&agrave; del lavoro e Sviluppo economico&rdquo;.</p>
+<p><strong>Classificazione territoriale.</strong> Centro storico, lungomare, periferia urbana, zone produttive, borghi e frazioni.</p>
+<p><strong>Limiti.</strong> Analisi a uso interno della coalizione, marzo 2026. I dati di fatturato e occupazione si riferiscono alle singole aziende citate, non ai settori aggregati a livello comunale, salvo dove diversamente indicato.</p>
+</div>
+</div>
+<div class="rb3"></div>
+<script>
+var P=[
+{n:"Hotel Regina",z:"Lungomare",pc:"Turismo"},
+{n:"Farmacia Manocchi-Carloni",z:"Centro storico",pc:"Commercio"},
+{n:"Angelini Tendaggi",z:"Centro storico",pc:"Commercio"},
+{n:"Albergo Ristorante Bice dei Fratelli Brunetti",z:"Lungomare",pc:"Turismo"},
+{n:"Bucci autotrasporti",z:"Zone produttive",pc:"Servizi"},
+{n:"Pongetti Ristorante",z:"Centro storico",pc:"Ristorazione"},
+{n:"Angelini Corniceria",z:"Centro storico",pc:"Artigianato"},
+{n:"Tabaccheria Giorgetti Panni Pieroni",z:"Centro storico",pc:"Commercio"},
+{n:"Barzetti Deposito acqua e bibite",z:"Zone produttive",pc:"Commercio"},
+{n:"Ferramenta Ansuini di Blancato Carlo Maria",z:"Centro storico",pc:"Commercio"},
+{n:"Mancinelli Maurizio e C.",z:"Zone produttive",pc:"Manifattura"},
+{n:"Azienda Agricola Mezzanotte",z:"Borghi e frazioni",pc:"Agricoltura"},
+{n:"Officine Meccaniche Giorgi poi IDROFER",z:"Zone produttive",pc:"Manifattura"},
+{n:"La Bussola di Giovenali - Atelier Sposa Sposo Cerimonia",z:"Centro storico",pc:"Commercio"},
+{n:"Aguzzi arredamenti",z:"Centro storico",pc:"Commercio"},
+{n:"Farmacia Landi Parere",z:"Centro storico",pc:"Commercio"},
+{n:"Lucertini Arredamenti",z:"Centro storico",pc:"Commercio"},
+{n:"Pongetti mobili",z:"Centro storico",pc:"Commercio"},
+{n:"Farmacia Filippini",z:"Centro storico",pc:"Commercio"},
+{n:"Marchetti Fratelli srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Tabaccheria Lambertina",z:"Centro storico",pc:"Commercio"},
+{n:"Maurizio Canonico ferramenta",z:"Centro storico",pc:"Commercio"},
+{n:"Capodagli gioielleria",z:"Centro storico",pc:"Commercio"},
+{n:"Emporio Pacenti",z:"Centro storico",pc:"Commercio"},
+{n:"Cartoleria De Luca",z:"Centro storico",pc:"Commercio"},
+{n:"Pierpaoli srl cosmetici e detersivi",z:"Zone produttive",pc:"Manifattura"},
+{n:"Furcinon Norcineria",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Hotel Cristallo",z:"Lungomare",pc:"Turismo"},
+{n:"Sever's",z:"Centro storico",pc:"Commercio"},
+{n:"Peverelli - Belle Arti Modellismo e Creatività",z:"Centro storico",pc:"Commercio"},
+{n:"Ferramenta Irrera",z:"Centro storico",pc:"Commercio"},
+{n:"Carrozzeria Romagnola",z:"Zone produttive",pc:"Automotive"},
+{n:"Fiorini International",z:"Zone produttive",pc:"Manifattura"},
+{n:"Fiorini Packaging",z:"Zone produttive",pc:"Manifattura"},
+{n:"Panificio Pasticceria Gambelli Oreste",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"La Casa della Divisa",z:"Centro storico",pc:"Commercio"},
+{n:"Foto Costantini",z:"Centro storico",pc:"Servizi"},
+{n:"Ciriachi Casa",z:"Centro storico",pc:"Commercio"},
+{n:"Hotel Trieste",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni Pat 89",z:"Lungomare",pc:"Turismo"},
+{n:"Ottica Casagrande Sergio",z:"Centro storico",pc:"Commercio"},
+{n:"Frutta e verdura Arcangeli Piero",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Mercerie Giraldi",z:"Centro storico",pc:"Commercio"},
+{n:"Cantina Luigi Giusti",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Ottica Casagrande Lorella",z:"Centro storico",pc:"Commercio"},
+{n:"Bonvini srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Maestro Barbiere Streccioni Giannino",z:"Centro storico",pc:"Servizi"},
+{n:"Ristorante da Seta",z:"Centro storico",pc:"Ristorazione"},
+{n:"Hotel Villa Pina",z:"Lungomare",pc:"Turismo"},
+{n:"Falegnameria Ramerini - arredamenti su misura",z:"Zone produttive",pc:"Artigianato"},
+{n:"Impresa di Costruzioni Mentucci Aldo",z:"Zone produttive",pc:"Artigianato"},
+{n:"Impresa Benni Srl",z:"Zone produttive",pc:"Artigianato"},
+{n:"Carrozzeria Adriatica",z:"Zone produttive",pc:"Automotive"},
+{n:"Albergo di Moretti Simona e Cristiano",z:"Lungomare",pc:"Turismo"},
+{n:"Villaggio Benvivere",z:"Periferia urbana",pc:"Turismo"},
+{n:"Maglificio Berluti",z:"Zone produttive",pc:"Manifattura"},
+{n:"Omce imballaggi metallici di Rocchetti Amleto SpA",z:"Zone produttive",pc:"Manifattura"},
+{n:"Mandolini Laerte",z:"Zone produttive",pc:"Manifattura"},
+{n:"Diambra Patrizia",z:"Centro storico",pc:"Commercio"},
+{n:"Bar Uliassi",z:"Borghi e frazioni",pc:"Ristorazione"},
+{n:"Bagni Firmina",z:"Lungomare",pc:"Turismo"},
+{n:"Casa della Plastica",z:"Zone produttive",pc:"Commercio"},
+{n:"Marchini gomme",z:"Zone produttive",pc:"Automotive"},
+{n:"Asoli Edilizia e Ceramiche",z:"Zone produttive",pc:"Commercio"},
+{n:"Latini Moto - Motomarche di Latini Franco",z:"Zone produttive",pc:"Automotive"},
+{n:"Saccaria",z:"Zone produttive",pc:"Manifattura"},
+{n:"Officina meccanica e Oleodinamica Carnevaletti",z:"Zone produttive",pc:"Artigianato"},
+{n:"Bar Tabacchi Lotto Rossi Berluti",z:"Centro storico",pc:"Commercio"},
+{n:"Falegnameria Montagna Luciano",z:"Zone produttive",pc:"Artigianato"},
+{n:"Hotel Nettuno",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 79 Carlo e Armanda",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Bologna",z:"Lungomare",pc:"Turismo"},
+{n:"Neri gioielleria",z:"Centro storico",pc:"Commercio"},
+{n:"Moschini Mario & C. fabbro",z:"Zone produttive",pc:"Artigianato"},
+{n:"COMAR - Macchine movimento terra",z:"Zone produttive",pc:"Manifattura"},
+{n:"Luminari fabbro",z:"Zone produttive",pc:"Artigianato"},
+{n:"Hotel Paradiso",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Souvenir",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Perla",z:"Lungomare",pc:"Turismo"},
+{n:"Giovanetti serramenti",z:"Zone produttive",pc:"Artigianato"},
+{n:"Bagni Teresa 142",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 76 Marzia Ferroni",z:"Lungomare",pc:"Turismo"},
+{n:"Viali Franco",z:"Zone produttive",pc:"Servizi"},
+{n:"Hotel Tritone",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Italia",z:"Lungomare",pc:"Turismo"},
+{n:"Granarelli Gioielleria",z:"Centro storico",pc:"Commercio"},
+{n:"Impresa Edile Sartini",z:"Zone produttive",pc:"Artigianato"},
+{n:"Solazzi uomo",z:"Centro storico",pc:"Commercio"},
+{n:"Hotel Bel Sit",z:"Lungomare",pc:"Turismo"},
+{n:"Il Fioraio di Costantini",z:"Centro storico",pc:"Commercio"},
+{n:"Studio Pierluca e associati",z:"Centro storico",pc:"Servizi"},
+{n:"Panificio Sbriscia",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Hotel Fiorella",z:"Lungomare",pc:"Turismo"},
+{n:"Officina Mengucci Gianfranco",z:"Zone produttive",pc:"Artigianato"},
+{n:"Panificio Casabianca Arte del Pane",z:"Borghi e frazioni",pc:"Alimentare e gastronomia"},
+{n:"Barbieria I.M.G. di Ivano Magi Galluzzi",z:"Centro storico",pc:"Servizi"},
+{n:"Goldengas",z:"Zone produttive",pc:"Manifattura"},
+{n:"La Pantofola - Paolo Fabbri",z:"Zone produttive",pc:"Manifattura"},
+{n:"Dueffe",z:"Zone produttive",pc:"Manifattura"},
+{n:"Ristorante Carmen",z:"Centro storico",pc:"Ristorazione"},
+{n:"La casa del caffè Famiglia Gregoretti Cecchettini",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Lugliaroli frantoio",z:"Borghi e frazioni",pc:"Alimentare e gastronomia"},
+{n:"Hotel Venezia",z:"Lungomare",pc:"Turismo"},
+{n:"Casa del Costume",z:"Centro storico",pc:"Commercio"},
+{n:"Veschi officine",z:"Zone produttive",pc:"Manifattura"},
+{n:"Profumeria Valeri",z:"Centro storico",pc:"Commercio"},
+{n:"Bagni 74 Onda Blu",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Vienna",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Dei Galli",z:"Lungomare",pc:"Turismo"},
+{n:"Fronzi Casalinghi dal 1967",z:"Centro storico",pc:"Commercio"},
+{n:"Pasta Fresca All'Uovo Di Cancellieri Daniela",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Palace Hotel",z:"Lungomare",pc:"Turismo"},
+{n:"Conti Lindo Impianti elettrici",z:"Zone produttive",pc:"Artigianato"},
+{n:"Ristorante FRECCIA AZZURRA - Famiglia Bittoni",z:"Centro storico",pc:"Ristorazione"},
+{n:"Belogi Motors",z:"Zone produttive",pc:"Automotive"},
+{n:"Officina Meccanica - Concessionaria",z:"Zone produttive",pc:"Automotive"},
+{n:"Bagni Nella 57 dal 1968",z:"Lungomare",pc:"Turismo"},
+{n:"Farmacia Domenici Robertucci",z:"Centro storico",pc:"Commercio"},
+{n:"Paolini Anastasio - interni auto",z:"Zone produttive",pc:"Automotive"},
+{n:"Angeletti Auto",z:"Zone produttive",pc:"Automotive"},
+{n:"Calcestruzzi Senigallia",z:"Zone produttive",pc:"Manifattura"},
+{n:"Dolciumi liquori Vinicio di Rettaroli Bruna",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Albergo Lucia",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Roma",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Delfino",z:"Lungomare",pc:"Turismo"},
+{n:"E.R.T. Di Bizzarri Mirko - tv e elettrodomestici",z:"Centro storico",pc:"Commercio"},
+{n:"Pasticceria San Martino",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"La bottega degli antichi sapori - Alimentari Spallacci Anna",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Macelleria Norcineria La Bottega di Nadio Cicetti",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Hotel International",z:"Lungomare",pc:"Turismo"},
+{n:"Marinelli M Sport",z:"Centro storico",pc:"Commercio"},
+{n:"Enoteca Galli",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Pasta fresca all'uovo di M. Cristina Argentati",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Il Forno Dionigi Senigallia",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Farmacia Dottori Sbrozzi",z:"Centro storico",pc:"Commercio"},
+{n:"Frulla Auto",z:"Zone produttive",pc:"Automotive"},
+{n:"Costantini biancheria per la casa",z:"Centro storico",pc:"Commercio"},
+{n:"Hotel Universal e Bagni 33",z:"Lungomare",pc:"Turismo"},
+{n:"Meccanica Berluti srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Pasta all'uovo Arcangeli",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Carrozzeria Manocchi Franco",z:"Zone produttive",pc:"Automotive"},
+{n:"Paolini Lucio & Simone e c. snc",z:"Zone produttive",pc:"Servizi"},
+{n:"Farmacia Paolucci",z:"Centro storico",pc:"Commercio"},
+{n:"Bagni 111 Morsucci Matias",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Metropol",z:"Lungomare",pc:"Turismo"},
+{n:"Camping Summerland",z:"Periferia urbana",pc:"Turismo"},
+{n:"Hotel Gabbiano e stabilimento balneare",z:"Lungomare",pc:"Turismo"},
+{n:"Falegnameria G.M. di Gerini Giuseppe",z:"Zone produttive",pc:"Artigianato"},
+{n:"Ori Alimentari",z:"Borghi e frazioni",pc:"Alimentare e gastronomia"},
+{n:"Nicolini gioielli",z:"Centro storico",pc:"Commercio"},
+{n:"Hotel e stabilimento balneare Magestic",z:"Lungomare",pc:"Turismo"},
+{n:"3M Parrucchieria lui e lei di Mancini",z:"Centro storico",pc:"Servizi"},
+{n:"Mirella Pelletterie",z:"Centro storico",pc:"Commercio"},
+{n:"Merceria Curtatoni Vanda",z:"Centro storico",pc:"Commercio"},
+{n:"Lucarelli srl Impiantistica Civile e Industriale",z:"Zone produttive",pc:"Artigianato"},
+{n:"Bocconi Arredamenti",z:"Centro storico",pc:"Commercio"},
+{n:"Foto Gaep di Pegoli",z:"Centro storico",pc:"Servizi"},
+{n:"Citroen Sabbatinelli",z:"Zone produttive",pc:"Automotive"},
+{n:"BMW - Cappello Antonio",z:"Zone produttive",pc:"Automotive"},
+{n:"Termoidraulica Del Giudice",z:"Zone produttive",pc:"Artigianato"},
+{n:"Pretini Ivano srl Ristrutturazioni edili",z:"Zone produttive",pc:"Artigianato"},
+{n:"Tutta Musica di Rossana Sogno",z:"Centro storico",pc:"Commercio"},
+{n:"Megà Dance",z:"Periferia urbana",pc:"Servizi"},
+{n:"COMES srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Paolo Santini impianti srl",z:"Zone produttive",pc:"Artigianato"},
+{n:"Costruzioni Stano",z:"Zone produttive",pc:"Artigianato"},
+{n:"Edra costruzioni",z:"Zone produttive",pc:"Artigianato"},
+{n:"Molino f.lli Mariani",z:"Borghi e frazioni",pc:"Alimentare e gastronomia"},
+{n:"Mini Gran Prix di Abbruciati Paolo e famiglia",z:"Periferia urbana",pc:"Turismo"},
+{n:"Bagni Licia",z:"Lungomare",pc:"Turismo"},
+{n:"Pettinari orafo",z:"Centro storico",pc:"Artigianato"},
+{n:"Centro copie Paladini",z:"Centro storico",pc:"Servizi"},
+{n:"Bagni 78 Cadelano Giampiero",z:"Lungomare",pc:"Turismo"},
+{n:"Hotel Patrizia",z:"Lungomare",pc:"Turismo"},
+{n:"Giuseppe Cucchi Oreficeria Orologeria",z:"Centro storico",pc:"Commercio"},
+{n:"Corderia Larc",z:"Zone produttive",pc:"Manifattura"},
+{n:"Bagni 118 Manservigi Carla",z:"Lungomare",pc:"Turismo"},
+{n:"Michele Ercole Pizzaiolo",z:"Centro storico",pc:"Ristorazione"},
+{n:"Boutique Ribot",z:"Centro storico",pc:"Commercio"},
+{n:"Impresa Brugiatelli",z:"Zone produttive",pc:"Artigianato"},
+{n:"Claudio Moroni Agente Assicurativo",z:"Centro storico",pc:"Servizi"},
+{n:"Giuliana Tomassoni Foto Art Eliotecnica",z:"Centro storico",pc:"Servizi"},
+{n:"Challenger Sails Yachting",z:"Centro storico",pc:"Servizi"},
+{n:"Oreficeria Bassotti e Caporaletti",z:"Centro storico",pc:"Commercio"},
+{n:"Famiglia Tassi Argentina",z:"Centro storico",pc:"Commercio"},
+{n:"Clementi falegname",z:"Zone produttive",pc:"Artigianato"},
+{n:"Franceschini Roberto Carrozzeria",z:"Zone produttive",pc:"Automotive"},
+{n:"F.lli Serritelli Rocco e Antonio frutta e verdura",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Quadraroli Giorgio Consulente assicurativo",z:"Centro storico",pc:"Servizi"},
+{n:"Assicurazioni e investimenti Dario Mancini",z:"Centro storico",pc:"Servizi"},
+{n:"Green Camping",z:"Periferia urbana",pc:"Turismo"},
+{n:"Rocmar Srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Bagni Nella 49 di Barucca Nella",z:"Lungomare",pc:"Turismo"},
+{n:"Sayonara",z:"Centro storico",pc:"Commercio"},
+{n:"Le Querce",z:"Borghi e frazioni",pc:"Ristorazione"},
+{n:"Ristorante da Ciccio",z:"Centro storico",pc:"Ristorazione"},
+{n:"Lavanderia ALBA di Urbinelli Andrea",z:"Centro storico",pc:"Servizi"},
+{n:"Azienda Agricola Cursi Oscar",z:"Borghi e frazioni",pc:"Agricoltura"},
+{n:"Meris materiale elettrico",z:"Zone produttive",pc:"Commercio"},
+{n:"Pasticceria Iannello",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Angolo del Duca - Corniceria e Belle Arti",z:"Centro storico",pc:"Artigianato"},
+{n:"Delta costruzioni",z:"Zone produttive",pc:"Artigianato"},
+{n:"Agostinelli Autospurghi",z:"Zone produttive",pc:"Servizi"},
+{n:"Cicli Marocchi",z:"Centro storico",pc:"Commercio"},
+{n:"Residence Mare Verde",z:"Periferia urbana",pc:"Turismo"},
+{n:"Due G. Moto srl",z:"Zone produttive",pc:"Automotive"},
+{n:"Pozzo dei Desideri",z:"Centro storico",pc:"Commercio"},
+{n:"Il Cappello",z:"Centro storico",pc:"Commercio"},
+{n:"Bagni Vittoria",z:"Lungomare",pc:"Turismo"},
+{n:"SPOGA Arredamenti",z:"Centro storico",pc:"Commercio"},
+{n:"Hotel Sole e stabilimento",z:"Lungomare",pc:"Turismo"},
+{n:"Rosi Ivaldo Tappezzeria",z:"Zone produttive",pc:"Artigianato"},
+{n:"Farmacia Avitabile",z:"Centro storico",pc:"Commercio"},
+{n:"Lagostekne",z:"Zone produttive",pc:"Manifattura"},
+{n:"Sadori Gas ora Sadori Reti",z:"Zone produttive",pc:"Manifattura"},
+{n:"Baretto Rosso",z:"Centro storico",pc:"Ristorazione"},
+{n:"Pesaresi Alessandro & C. sas",z:"Zone produttive",pc:"Servizi"},
+{n:"Vetreria Misa",z:"Zone produttive",pc:"Artigianato"},
+{n:"Spadoni Mauro servizi tecnici",z:"Zone produttive",pc:"Servizi"},
+{n:"Pacenti Nevio - ricambi elettrodomestici",z:"Zone produttive",pc:"Commercio"},
+{n:"La fiera di Sinigaglia - Galleria Antiquaria",z:"Centro storico",pc:"Commercio"},
+{n:"Vinicio Pirani - ambulante",z:"Centro storico",pc:"Commercio"},
+{n:"Bagni Sandra",z:"Lungomare",pc:"Turismo"},
+{n:"C.I.D.I. Computer",z:"Centro storico",pc:"Commercio"},
+{n:"Pasticceria Sestilio",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Da Paola fiori e piante",z:"Centro storico",pc:"Commercio"},
+{n:"Ciabatteria Mencaroni",z:"Centro storico",pc:"Artigianato"},
+{n:"Lavanderia La Senigalliese",z:"Centro storico",pc:"Servizi"},
+{n:"Sorelle Sebastianelli",z:"Centro storico",pc:"Commercio"},
+{n:"Libreria Sapere Ubik",z:"Centro storico",pc:"Commercio"},
+{n:"Cesare Baldiserri Assi-France srl",z:"Centro storico",pc:"Servizi"},
+{n:"Bar Penna di Vecchi Bruno e Maurizio",z:"Centro storico",pc:"Ristorazione"},
+{n:"Panificio Pasticceria gastronomia Minardi",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Bagni 45 Turner Berta Isabella",z:"Lungomare",pc:"Turismo"},
+{n:"Timone Yachts - Luigi Gambelli",z:"Centro storico",pc:"Servizi"},
+{n:"Canton art di Daniela",z:"Centro storico",pc:"Artigianato"},
+{n:"Andrea Alfonsi - impianti elettrici",z:"Zone produttive",pc:"Artigianato"},
+{n:"Bonvini Elettrogalvanica",z:"Zone produttive",pc:"Manifattura"},
+{n:"Cesare Baldiserri Assi-France srl Servizi Assicurativi",z:"Centro storico",pc:"Servizi"},
+{n:"Eurogas",z:"Zone produttive",pc:"Servizi"},
+{n:"Fabiano Pierfederici Agente Assicurativo",z:"Centro storico",pc:"Servizi"},
+{n:"Bagni Clipper 144 Albonetti Danilo e Daniele",z:"Lungomare",pc:"Turismo"},
+{n:"Famiglia Morsucci hotel Mareblu",z:"Lungomare",pc:"Turismo"},
+{n:"Sabra",z:"Centro storico",pc:"Commercio"},
+{n:"Blu Bar F.lli Quattrini",z:"Centro storico",pc:"Ristorazione"},
+{n:"Bar Azzurro 85 - Bastianoni",z:"Lungomare",pc:"Ristorazione"},
+{n:"Carrozzeria la Moderna - Ruggeri e Durazzi",z:"Zone produttive",pc:"Automotive"},
+{n:"Le Fiandre",z:"Centro storico",pc:"Commercio"},
+{n:"Parrucchieria Francesca",z:"Centro storico",pc:"Servizi"},
+{n:"La Lama di Arsendi Paul",z:"Centro storico",pc:"Servizi"},
+{n:"Nevio Arcangeli fotografo",z:"Centro storico",pc:"Servizi"},
+{n:"Club Motori d'Epoca - Senigallia",z:"Periferia urbana",pc:"Automotive"},
+{n:"Bracci Giovanni - ambulante",z:"Centro storico",pc:"Commercio"},
+{n:"Hotel Olympia e stabilimento",z:"Lungomare",pc:"Turismo"},
+{n:"Ferramenta Fer-Color",z:"Centro storico",pc:"Commercio"},
+{n:"Massimo Pedullà",z:"Centro storico",pc:"Servizi"},
+{n:"Pizzeria del Portico",z:"Centro storico",pc:"Ristorazione"},
+{n:"Tricot filati di Abbrugiati Paola",z:"Centro storico",pc:"Commercio"},
+{n:"Bagni Irma",z:"Lungomare",pc:"Turismo"},
+{n:"La Collana",z:"Centro storico",pc:"Commercio"},
+{n:"La Senigalliese",z:"Zone produttive",pc:"Manifattura"},
+{n:"Canestrari Carla Calzature",z:"Centro storico",pc:"Commercio"},
+{n:"Paolo Manoni - Caffè Portici",z:"Centro storico",pc:"Ristorazione"},
+{n:"Honky",z:"Centro storico",pc:"Commercio"},
+{n:"Pizzeria Sloppy Joe",z:"Centro storico",pc:"Ristorazione"},
+{n:"Autofficina Elettrauto Belardinelli e Testaguzza",z:"Zone produttive",pc:"Automotive"},
+{n:"Romitelli Macchine Utensili",z:"Zone produttive",pc:"Manifattura"},
+{n:"Distributore IP di Ferretti",z:"Periferia urbana",pc:"Automotive"},
+{n:"Hotel Senigallia",z:"Lungomare",pc:"Turismo"},
+{n:"Caffè Doria",z:"Centro storico",pc:"Ristorazione"},
+{n:"Lavanderia Cavalletti",z:"Centro storico",pc:"Servizi"},
+{n:"Profumeria estetica Doriana",z:"Centro storico",pc:"Commercio"},
+{n:"La Fenice Enoteca",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Ristorante La Pagaia",z:"Centro storico",pc:"Ristorazione"},
+{n:"Hotel Rex",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 44",z:"Lungomare",pc:"Turismo"},
+{n:"Club Viaggi",z:"Centro storico",pc:"Servizi"},
+{n:"Tiriboco cucine industriali",z:"Zone produttive",pc:"Manifattura"},
+{n:"Il Portoncino",z:"Centro storico",pc:"Ristorazione"},
+{n:"Chiosco Surya di Massimo Coppari",z:"Lungomare",pc:"Ristorazione"},
+{n:"Termoidraulica T.S. di Goldoni Stefano",z:"Zone produttive",pc:"Artigianato"},
+{n:"Bar Paola",z:"Centro storico",pc:"Ristorazione"},
+{n:"Da Ninin pescheria",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Andrea Ippoliti - Studio d'arte e restauro",z:"Centro storico",pc:"Artigianato"},
+{n:"Ottica 2000",z:"Centro storico",pc:"Commercio"},
+{n:"Barbieria Francesco",z:"Centro storico",pc:"Servizi"},
+{n:"Elettrauto Mandolini e Agnoletti",z:"Zone produttive",pc:"Automotive"},
+{n:"Lucarreda arredamenti",z:"Centro storico",pc:"Commercio"},
+{n:"Schizzo Bar",z:"Centro storico",pc:"Ristorazione"},
+{n:"Bagni 133 Renato",z:"Lungomare",pc:"Turismo"},
+{n:"Brocchini Sabrina Parrucchiera",z:"Centro storico",pc:"Servizi"},
+{n:"Carrozzeria 91",z:"Zone produttive",pc:"Automotive"},
+{n:"Ninna Nanna per il bebè",z:"Centro storico",pc:"Commercio"},
+{n:"Group srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Bagni 63",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni Cristina",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni Virgilio",z:"Lungomare",pc:"Turismo"},
+{n:"Ottica Galdenzi",z:"Centro storico",pc:"Commercio"},
+{n:"SIREC SpA",z:"Zone produttive",pc:"Manifattura"},
+{n:"Bagni Carlini",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 122 Santolini Paola",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 115 Turchi Gabriele",z:"Lungomare",pc:"Turismo"},
+{n:"DO.MO. vending srl",z:"Zone produttive",pc:"Commercio"},
+{n:"Hotel Atlantic",z:"Lungomare",pc:"Turismo"},
+{n:"Bagus",z:"Centro storico",pc:"Ristorazione"},
+{n:"Albergo Primavera",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 60 Bplaya",z:"Lungomare",pc:"Turismo"},
+{n:"New Bar di Pettinato Giuseppa",z:"Centro storico",pc:"Ristorazione"},
+{n:"Pizzeria Ristorante Il Saladino",z:"Centro storico",pc:"Ristorazione"},
+{n:"Mercerie intimo di Bolognini Anna Maria",z:"Centro storico",pc:"Commercio"},
+{n:"Conchiglia",z:"Lungomare",pc:"Turismo"},
+{n:"Argentina",z:"Lungomare",pc:"Turismo"},
+{n:"Indiana Jeans",z:"Centro storico",pc:"Commercio"},
+{n:"Ricciotti Massimiliano salumi e formaggi",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Sergio Francesconi Food and Beverage",z:"Centro storico",pc:"Ristorazione"},
+{n:"Des Amis",z:"Centro storico",pc:"Ristorazione"},
+{n:"Cuoco di Bordo",z:"Centro storico",pc:"Ristorazione"},
+{n:"Lido 82",z:"Lungomare",pc:"Turismo"},
+{n:"Severini Costruzioni Srl",z:"Zone produttive",pc:"Artigianato"},
+{n:"Vitur Viaggi srl",z:"Centro storico",pc:"Servizi"},
+{n:"Villaggio Benvivere",z:"Periferia urbana",pc:"Turismo"},
+{n:"Bar Pizzeria Rikki Tikki Tavi",z:"Lungomare",pc:"Ristorazione"},
+{n:"Mencarelli macelleria norcineria",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Marinari materiale elettrico",z:"Zone produttive",pc:"Commercio"},
+{n:"Spadoni Santinelli Claudio - Impresa Edile",z:"Zone produttive",pc:"Artigianato"},
+{n:"Fuligna Claudio impresa edile",z:"Zone produttive",pc:"Artigianato"},
+{n:"Casagrande Esposto Lorenzo - Rivestimenti",z:"Zone produttive",pc:"Artigianato"},
+{n:"Bigi Stefano - Impresa Edile",z:"Zone produttive",pc:"Artigianato"},
+{n:"Sperandini bibite",z:"Zone produttive",pc:"Commercio"},
+{n:"Vici Sergio Autotrasporti - All service srl",z:"Zone produttive",pc:"Servizi"},
+{n:"Pasquini Tappezzeria Tendaggi",z:"Zone produttive",pc:"Artigianato"},
+{n:"Edicola Tabaccheria Gastreghini",z:"Centro storico",pc:"Commercio"},
+{n:"Futura Tinteggiatori",z:"Zone produttive",pc:"Artigianato"},
+{n:"AN.SI. Service",z:"Zone produttive",pc:"Servizi"},
+{n:"La Prima ferramenta",z:"Centro storico",pc:"Commercio"},
+{n:"Iacussi Gastone impianti elettrici",z:"Zone produttive",pc:"Artigianato"},
+{n:"Isola del fiore",z:"Centro storico",pc:"Commercio"},
+{n:"TMS Termoidraulica",z:"Zone produttive",pc:"Artigianato"},
+{n:"Azienda agricola Mazzola",z:"Borghi e frazioni",pc:"Agricoltura"},
+{n:"City Pub",z:"Centro storico",pc:"Ristorazione"},
+{n:"La Ghigliottina",z:"Centro storico",pc:"Ristorazione"},
+{n:"Rosticceria il Pescatore",z:"Centro storico",pc:"Alimentare e gastronomia"},
+{n:"Bagni Mille Bolle Blu",z:"Lungomare",pc:"Turismo"},
+{n:"Bagni 167/168 Albonetti Silvana",z:"Lungomare",pc:"Turismo"},
+{n:"Termoidraulica H2O",z:"Zone produttive",pc:"Artigianato"},
+{n:"Famiglia Zoppini Hotel Sirena",z:"Lungomare",pc:"Turismo"},
+{n:"Casabianca Automazioni",z:"Borghi e frazioni",pc:"Manifattura"},
+{n:"Camping Cortina",z:"Periferia urbana",pc:"Turismo"},
+{n:"Namirial SpA",z:"Zone produttive",pc:"Digitale"},
+{n:"Tabaccheria del Corso di Morbidelli Michele",z:"Centro storico",pc:"Commercio"},
+{n:"Corallo",z:"Lungomare",pc:"Turismo"},
+{n:"Ristorante Pizzeria Luna Rossa",z:"Centro storico",pc:"Ristorazione"},
+{n:"Birreria Lady Hamilton",z:"Centro storico",pc:"Ristorazione"},
+{n:"Pizzeus Ristorante Pizzeria",z:"Centro storico",pc:"Ristorazione"},
+{n:"Band Arbitri Elegantiae",z:"Centro storico",pc:"Servizi"},
+{n:"Hotel City",z:"Lungomare",pc:"Turismo"},
+{n:"Verde mare - Country House",z:"Borghi e frazioni",pc:"Turismo"},
+{n:"Il Tesoro dei Pirati - Ristorante Talal",z:"Centro storico",pc:"Ristorazione"},
+{n:"Il Chioschetto",z:"Lungomare",pc:"Ristorazione"},
+{n:"Vivere Senigallia",z:"Centro storico",pc:"Servizi"},
+{n:"OEB Srl",z:"Zone produttive",pc:"Manifattura"},
+{n:"Bagni 107",z:"Lungomare",pc:"Turismo"},
+{n:"Tabaccheria Adriatica Chiodi Rita",z:"Centro storico",pc:"Commercio"},
+{n:"Moschus boutique",z:"Centro storico",pc:"Commercio"},
+{n:"Ristorante da Carlo",z:"Centro storico",pc:"Ristorazione"},
+{n:"Pochito Mas",z:"Centro storico",pc:"Ristorazione"},
+{n:"Parrucchiera Sabrina",z:"Centro storico",pc:"Servizi"},
+{n:"Bagni 159 Manocchi Mara",z:"Lungomare",pc:"Turismo"},
+{n:"Bar Mosquito dal 2000",z:"Lungomare",pc:"Ristorazione"},
+{n:"Pizzeria Mezzometro",z:"Centro storico",pc:"Ristorazione"},
+{n:"Paolini distributore Metano",z:"Periferia urbana",pc:"Automotive"},
+{n:"Ceramica La Torre di Morena Pesaresi",z:"Zone produttive",pc:"Artigianato"},
+{n:"Ristorante Rimante di Cesare De Rocco",z:"Centro storico",pc:"Ristorazione"},
+{n:"Bagni 14 Village Caffè",z:"Lungomare",pc:"Turismo"},
+{n:"Lato sud",z:"Centro storico",pc:"Ristorazione"},
+{n:"Bagni Atollo - Abbrugiati e Angeletti Andrea",z:"Lungomare",pc:"Turismo"},
+{n:"Casabianca automazione",z:"Borghi e frazioni",pc:"Manifattura"},
+{n:"Autofficina Piangerelli Francesco",z:"Zone produttive",pc:"Automotive"},
+{n:"CO.ME.TA.T. Coppe Targhe e Timbrificio",z:"Centro storico",pc:"Artigianato"},
+{n:"Terrazza Marconi",z:"Centro storico",pc:"Ristorazione"},
+{n:"Le due ruote Bike Store",z:"Centro storico",pc:"Commercio"},
+{n:"Maglieria Nella",z:"Centro storico",pc:"Commercio"},
+{n:"Forno di Sant'Angelo - Panificio Cesarini e Lanfredini",z:"Borghi e frazioni",pc:"Alimentare e gastronomia"}
+];
+
+var DOSSIER='<h1\nid="analisi-strutturale-e-mappatura-economica-di-senigallia-e-delle-valli-misa-nevola-prospettive-per-lo-sviluppo-territoriale-2026">Analisi\nStrutturale e Mappatura Economica di Senigallia e delle Valli\nMisa-Nevola: Prospettive per lo Sviluppo Territoriale 2026</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'ecosistema produttivo di Senigallia e delle Valli Misa-Nevola si\npresenta, alla vigilia della tornata amministrativa del 2026, come un\norganismo complesso in cui convivono eccellenze tecnologiche di respiro\nglobale e fragilità strutturali legate alla demografia e alla\ntransizione ecologica. Il territorio, che comprende il polo costiero di\nSenigallia e i comuni dell\'entroterra (Arcevia, Barbara, Castelleone di\nSuasa, Corinaldo, Ostra, Ostra Vetere, Serra de\' Conti e Trecastelli),\ncostituisce l\'Unione dei Comuni "Le Terre della Marca Senone", un\'area\nche sta tentando di superare la frammentazione amministrativa per\nrispondere unitariamente alle sfide della "policrisi"\ncontemporanea.<sup>1</sup></p>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il quadro macroeconomico regionale fornisce la cornice necessaria per\ninterpretare le dinamiche locali: al 31 dicembre 2024, le Marche contano\n131.028 imprese attive, con una densità imprenditoriale di 88 imprese\nogni 1.000 abitanti, superiore alla media nazionale di 86.<sup>4</sup>\nTuttavia, la provincia di Ancona ha registrato una contrazione del 2,5%\ndelle imprese attive nell\'ultimo anno, perdendo oltre 5.400 unità\nproduttive dal 2018 al 2024, un calo pari al 13,7% del patrimonio\nimprenditoriale totale.<sup>3</sup> In questo contesto, l\'area di\nSenigallia e delle sue valli emerge come un laboratorio di resilienza,\ndove settori tradizionali come l\'agricoltura e la manifattura meccanica\ncercano nuove vie attraverso l\'innovazione digitale e la sostenibilità\nambientale.</p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di\nSettore A: Turismo e Intrattenimento</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Senigallia si conferma nel 2024 come la principale destinazione\nturistica delle Marche, guidando la ripresa del comparto a livello\nregionale. Con 225.317 arrivi e 1.013.443 presenze registrate nell\'anno\nsolare 2024, la città ha superato i numeri di Pesaro e San Benedetto del\nTronto, consolidando il proprio ruolo di traino per l\'economia\nlocale.<sup>5</sup> La crescita è stata sostenuta in modo significativo\ndalla componente internazionale, che a livello regionale ha visto un\nincremento degli arrivi del 13,8% nei primi nove mesi del\n2024.<sup>7</sup></p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Articolazione\ndell\'Offerta e Specializzazioni</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'economia del turismo a Senigallia non è più un comparto\nmono-settoriale basato esclusivamente sull\'offerta balneare, ma si è\nframmentata in nove sotto-tipologie che interagiscono tra loro e con\nl\'entroterra:</p>\n<ol type="1">\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Turismo Balneare</strong>: Costituisce la base storica\ndell\'economia costiera, con oltre 100 stabilimenti che generano la\nmaggior quota di presenze estive. La criticità principale risiede nella\nprecarietà dei contratti stagionali e nell\'incertezza normativa sulle\nconcessioni.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Enogastronomico</strong>: Grazie a una densità unica di\nristorazione di alta gamma (inclusi chef pluristellati), questo comparto\nattrae flussi ad alta capacità di spesa, fungendo da ponte con le\naziende vitivinicole dell\'entroterra.<sup>6</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Culturale e Storico-Artistico</strong>: Musei, aree\narcheologiche e tour del centro storico hanno permesso di estendere la\nstagione turistica ai mesi primaverili e autunnali.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Cicloturismo e Sportivo</strong>: La valorizzazione dei\npercorsi collinari delle Valli Misa-Nevola ha creato una filiera di\nnoleggio e assistenza tecnica che coinvolge piccoli comuni come\nCorinaldo e Arcevia.<sup>8</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Congressuale e d\'Affari</strong>: Pur soffrendo la\nconcorrenza di poli maggiori, la disponibilità di sale meeting e\nconvention center mantiene un\'occupazione alberghiera feriale\nsignificativa.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Esperienziale e Rurale</strong>: I "farm-stay" e le attività\noutdoor nell\'entroterra rispondono alla crescente domanda di turismo\nlento e sostenibile.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Della Pace e della Memoria</strong>: Un filone tematico\nlegato alla storia locale e alla valorizzazione dei borghi.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Naturalistico ed Eco-turismo</strong>: Guide ambientali\noperanti nelle aree protette e lungo le aste fluviali.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Musicale e degli Eventi</strong>: Festival internazionali\ncome il Summer Jamboree agiscono come moltiplicatori economici,\nsaturando la capacità ricettiva ben oltre i confini comunali di\nSenigallia.</p>\n</blockquote></li>\n</ol>\n<table style="width:100%;border-collapse:collapse;font-size:12px;margin:12px 0">\n<colgroup>\n<col style="width: 33%" />\n<col style="width: 33%" />\n<col style="width: 33%" />\n</colgroup>\n<thead>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Metrica Settore Turismo (Senigallia 2024-2025)</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Valore Stimato / Registrato</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Trend 2018-2025</strong></th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Arrivi Totali</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">225.317</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">+3,5%</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Presenze Totali</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">1.013.443</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">+2,1%</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Imprese Turistiche (Marche)</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">9.699</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Stabile</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Addetti (Settore Turismo Marche)</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">54.100</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In crescita (+2,9%)</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Quota Presenze Straniere (Senigallia)</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">~15%</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In forte aumento</th>\n</tr>\n</thead>\n<tbody>\n</tbody>\n</table>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><sup>5</sup></p>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Le principali criticità del settore riguardano l\'elevato tasso di\nstagionalità e la difficoltà nel reperire manodopera qualificata, con\nuna crescente incidenza di contratti intermittenti che contribuiscono al\nfenomeno del "lavoro povero" nel terziario.<sup>10</sup></p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore B:\nAgricoltura</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'agricoltura nelle Valli Misa-Nevola sta vivendo una trasformazione\nradicale: il modello intensivo tradizionale è in crisi, mentre le\nnicchie biologiche e vitivinicole mostrano una resilienza inaspettata.\nIn provincia di Ancona, il settore agricolo è quello che ha subito il\ncalo più drastico del numero di imprese, perdendo il 21,6% delle unità\nattive tra il 2018 e il 2024 (passando da 6.316 a 4.949\nimprese).<sup>3</sup></p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Sottotipologie e Modelli\nProduttivi</h5>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Agricoltura Intensiva</strong>: Concentrata nelle aree\npianeggianti, soffre per l\'aumento dei costi delle materie prime e per\nla competizione dei mercati globali.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Piccole Aziende Biologiche</strong>: La Val Misa vanta una\ntradizione storica nel biologico, con una rete di produttori che\nalimentano filiere corte e negozi specializzati.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Aziende Vinicole</strong>: Situate prevalentemente nelle\ncolline di Ostra, Ostra Vetere e Corinaldo, rappresentano il comparto\nagricolo a più alto valore aggiunto, con una forte integrazione con il\nturismo.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Frantoi</strong>: Una micro-filiera di eccellenza che\ngarantisce la manutenzione del paesaggio olivicolo, fondamentale per la\nprevenzione del dissesto idrogeologico.</p>\n</blockquote></li>\n</ul>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'abbandono delle terre nell\'alta valle (Arcevia) rappresenta una\ncriticità strategica non solo economica, ma anche ambientale, aggravata\ndalla mancanza di ricambio generazionale: l\'età media degli imprenditori\nagricoli è tra le più alte d\'Europa.<sup>3</sup></p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore C:\nManifattura</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La manifattura costituisce la spina dorsale del fatturato aggregato\ndel territorio, sebbene il comparto stia attraversando una fase di\ncontrazione produttiva. In provincia di Ancona, l\'industria\nmanifatturiera ha perso il 16,8% delle proprie imprese dal 2018 al\n2024.<sup>3</sup> Tuttavia, l\'area di Senigallia ospita poli di\neccellenza che figurano stabilmente nella classifica delle top 500\naziende marchigiane per fatturato.<sup>12</sup></p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Il Polo del Packaging e\ndell\'Automazione</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'asse Senigallia-Barbara rappresenta un cluster di rilievo nazionale\nper il packaging.</p>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Fiorini International Italia S.p.A.</strong>: Con sede a\nSenigallia, è una delle realtà leader nel packaging di lusso e\nindustriale, con un fatturato 2024 di 128,6 milioni di\neuro.<sup>12</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Fiorini Packaging S.p.A.</strong>: Azienda specializzata con\nun fatturato di oltre 70 milioni di euro.<sup>13</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Messersì Packaging S.r.l.</strong>: Situata a Barbara, è\nun\'azienda anchor per la metalmeccanica applicata al fine-linea\nindustriale, con un fatturato di 65,4 milioni di euro e una forte\npropensione all\'esportazione di macchinari complessi.<sup>13</sup></p>\n</blockquote></li>\n</ul>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Meccanica, Plastica e Legno</h5>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Metalmeccanica</strong>: Il territorio ospita numerose\naziende di precisione che lavorano come subfornitori per i grandi poli\ndella meccanica regionale.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Trasformazione Plastica</strong>: <strong>Plastica Valmisa\nS.p.A.</strong>, con sede a Ostra, è un esempio di azienda resiliente\nche, nonostante una contrazione del fatturato nel 2024 (24,9 milioni di\neuro rispetto ai 26,5 del 2023), mantiene un\'occupazione stabile di 175\ndipendenti.<sup>14</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Legno e Arredamento</strong>: <strong>Subissati\nS.r.l.</strong> ad Ostra Vetere rappresenta l\'eccellenza nelle\ncostruzioni in legno e bioedilizia, con un fatturato 2024 di 25,7\nmilioni di euro e un utile di 3,7 milioni, dimostrando che la\nsostenibilità può essere un volano economico\nredditizio.<sup>16</sup></p>\n</blockquote></li>\n</ul>\n<table style="width:100%;border-collapse:collapse;font-size:12px;margin:12px 0">\n<colgroup>\n<col style="width: 20%" />\n<col style="width: 20%" />\n<col style="width: 20%" />\n<col style="width: 20%" />\n<col style="width: 20%" />\n</colgroup>\n<thead>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Azienda Strategica</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Comune</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Fatturato 2024 (Mln €)</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Dipendenti</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Salute / Trend</strong></th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Fiorini International</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Senigallia</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">128,6</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">~400</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Solida</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Fiorini Packaging</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Senigallia</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">70,5</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">~150</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Stabile</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Messersì Packaging</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Barbara</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">65,4</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">~180</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Innovativa</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Plastica Valmisa</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Ostra</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">24,9</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">175</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In calo (-6%)</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Subissati S.r.l.</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Ostra Vetere</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">25,7</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">41</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In crescita</th>\n</tr>\n</thead>\n<tbody>\n</tbody>\n</table>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><sup>13</sup></p>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La manifattura locale risente pesantemente del caro energia e della\ndebolezza della domanda interna, con un ricorso alla Cassa Integrazione\nche a livello regionale è cresciuto del 49% nel 2024, colpendo\nsoprattutto il settore moda e meccanica.<sup>10</sup></p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore D:\nDigitale</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Senigallia è riuscita a posizionarsi come un hub tecnologico\ninatteso, grazie alla presenza di aziende nate localmente che hanno\nassunto una dimensione internazionale. Questo settore è caratterizzato\nda un\'alta intensità di conoscenza e da salari mediamente più elevati\ndella media territoriale.</p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Le Aziende Anchor del\nDigitale</h5>\n<ol type="1">\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Namirial S.p.A.</strong>: È l\'azienda leader indiscussa,\noperante nei servizi fiduciari digitali (firma elettronica, PEC, digital\nonboarding). Nel 2024 ha registrato un fatturato di 74,2 milioni di\neuro, confermandosi tra le realtà più dinamiche della\nprovincia.<sup>13</sup> Namirial agisce da catalizzatore per l\'intero\necosistema digitale locale, attirando specialisti da tutta Italia.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Pluservice S.r.l.</strong>: Specializzata in sistemi\ninformatici per la mobilità e il trasporto pubblico locale, impiega\ncirca 165 persone a Senigallia.<sup>17</sup> Il fatturato 2024 si\nattesta sui 14,8 milioni di euro.<sup>17</sup> Nonostante una variazione\nnegativa del fatturato nell\'ultimo anno (-10,3%), l\'azienda ha aumentato\nil numero di dipendenti da 107 nel 2019 a 146 nel 2024, indicando una\nfase di investimento in capitale umano.<sup>18</sup></p>\n</blockquote></li>\n</ol>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La presenza di queste realtà ha favorito la nascita di piccole\nstartup di consulenza IT e software house locali. Tuttavia, manca ancora\nun "polo tecnologico" formale che possa fungere da incubatore per le\nnuove imprese digitali nelle Valli Misa-Nevola.</p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore E:\nCostruzioni</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il settore delle costruzioni ha vissuto un quadriennio di forte\ncrescita spinto dagli incentivi governativi, seguito da una fase di\nincertezza legislativa. In provincia di Ancona, le imprese attive nelle\ncostruzioni sono calate del 13,5% dal 2018, attestandosi a 4.678\nunità.<sup>3</sup></p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Focus Territoriale</h5>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Edilizia Residenziale</strong>: Rallentata dall\'aumento dei\ntassi di interesse e dalla saturazione del mercato nelle aree\ncostiere.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Edilizia Turistica</strong>: Dinamica elevata per\nl\'adeguamento delle strutture ricettive di Senigallia agli standard\ninternazionali di sostenibilità.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Infrastrutture</strong>: Legata prevalentemente agli appalti\npubblici per la messa in sicurezza dei fiumi dopo l\'alluvione del\n2022.</p>\n</blockquote></li>\n</ul>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'azienda <strong>Subissati S.r.l.</strong> rappresenta un\'eccezione\npositiva, intercettando la domanda di edifici a basso impatto ambientale\ne alta efficienza energetica.<sup>16</sup></p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore F:\nCommercio</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il commercio è il settore con il maggior numero di imprese attive\n(oltre 21.000 in provincia, pur con un calo dell\'11% dal 2018), ma vive\nuna crisi di identità profonda.<sup>3</sup></p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Dinamiche del\nCommercio a Senigallia e Valli</h5>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Dettaglio e Vicinato</strong>: Il centro storico di\nSenigallia resiste grazie alla pedonalizzazione e all\'integrazione con\nil turismo, ma le botteghe di quartiere e dei piccoli comuni delle valli\nsoffrono la concorrenza della GDO e dell\'online.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Grandi Superfici</strong>: La concentrazione di centri\ncommerciali nelle aree industriali di Senigallia (Cesano) ha spostato i\nflussi di spesa quotidiana.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>E-commerce</strong>: Sebbene in crescita, la maggior parte\ndelle aziende locali non ha ancora sviluppato una presenza online\ncompetitiva.</p>\n</blockquote></li>\n</ul>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il tasso di natalità delle imprese nel commercio è in calo, mentre le\nchiusure interessano soprattutto le attività individuali, meno capaci di\nreggere l\'aumento dei costi fissi.<sup>4</sup></p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore G: Pesca</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La pesca rappresenta un comparto storico ma economicamente vitale,\nspecialmente per quanto riguarda la molluschicoltura.</p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">La Filiera Molluschicola</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La <strong>SOCIETÀ COOPERATIVA PESCATORI MOLLUSCHICOLTORI\n(CO.PE.MO.)</strong> è l\'attore centrale del porto di Senigallia. Nel\n2024 ha registrato un fatturato di <strong>40,3 milioni di\neuro</strong>, con una crescita del 13,4% rispetto all\'anno\nprecedente.<sup>13</sup> La cooperativa gestisce 63 dipendenti e una\nfitta rete di soci imbarcati, garantendo uno sbocco commerciale sicuro\nper la piccola pesca locale.<sup>19</sup></p>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Le criticità riguardano il rinnovo della flotta, l\'impatto dei\ncambiamenti climatici sulla produttività dell\'Adriatico e le restrizioni\nnormative europee che rendono difficile la sostenibilità economica delle\nimbarcazioni non aggregate in cooperativa.</p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore H:\nTerziario (Servizi)</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il terziario dei servizi è un comparto eterogeneo che sostiene\nl\'intera struttura sociale del territorio.</p>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Sanità e Assistenza</strong>: Gestita prevalentemente da\ncooperative sociali (v. infra) che operano in convenzione con l\'ASUR e i\ncomuni dell\'Unione.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Trasporto e Logistica</strong>: Cruciale per il polo del\npackaging di Barbara e Ostra. La logistica locale deve fare i conti con\nun\'infrastruttura stradale (SP Arceviese) spesso inadeguata ai volumi di\ntraffico pesante.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Servizi Professionali</strong>: Studi legali, commercialisti\ne consulenti sono concentrati a Senigallia, ma servono l\'intero bacino\ndella Val Misa.</p>\n</blockquote></li>\n</ul>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Analisi di Settore I: Terzo\nSettore</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il Terzo Settore è un pilastro della coesione sociale e della qualità\ndella vita nel territorio. A Senigallia sono identificate oltre 94\nassociazioni di volontariato e promozione sociale.<sup>20</sup></p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Cooperative Sociali di\nRilevanza Locale</h5>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Casa della Gioventù</strong>: Con sede a Senigallia, è attiva\ndal 1995 nei servizi alla persona e nell\'inclusione\nlavorativa.<sup>21</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>H Muta</strong>: Operante dal 1994, è un punto di riferimento\nper l\'assistenza disabili.<sup>21</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>COOSS Marche</strong>: Sebbene operi su scala regionale, è il\nprincipale datore di lavoro nel settore dei servizi sociali locali, con\nun fatturato provinciale rilevante e oltre 90 milioni di euro a livello\naggregato.<sup>12</sup></p>\n</blockquote></li>\n</ul>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il volontariato sociale coinvolge circa 2.000 persone, un capitale\numano fondamentale che tuttavia sconta problemi di ricambio\ngenerazionale e dipendenza dai finanziamenti pubblici.<sup>22</sup></p>\n<h2\nid="analisi-trasversale-j-k-l-artigianato-produzione-artistica-e-quartiere">Analisi\nTrasversale J-K-L: Artigianato, Produzione Artistica e Quartiere</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">L\'artigianato attraversa tutti i settori manifatturieri e dei\nservizi. In provincia di Ancona, le imprese artigiane costituiscono il\n29% delle imprese attive.<sup>4</sup></p>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Trend</strong>: Nel decennio 2015-2025, le Marche hanno perso\nimprese artigiane a un ritmo dello 0,5% annuo, con punte più alte nel\nmanifatturiero artistico.<sup>23</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Settore Creativo</strong>: Senigallia ospita laboratori di\nfotografia (eredità di Giacomelli), studi di registrazione e agenzie di\ndesign che costituiscono un\'economia "invisibile" ma ad alto valore\naggiunto.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Quartiere</strong>: Le reti di vicinato e i piccoli\ncommercianti di quartiere (Cesano, Marzocca, Vivere Verde) sono i\ngaranti della vivibilità urbana e della sicurezza sociale.</p>\n</blockquote></li>\n</ul>\n<h2\nid="analisi-del-mercato-del-lavoro-e-criticità-occupazionali">Analisi\ndel Mercato del Lavoro e Criticità Occupazionali</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La "resilienza" del sistema produttivo locale nasconde fragilità\noccupazionali profonde che devono essere al centro del programma\npolitico 2026.</p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">La Qualità dell\'Occupazione</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Nonostante un tasso di occupazione in lieve crescita nelle Marche\n(+6,8% per gli over 50), si registra un calo consistente\ndell\'occupazione giovanile (-5,3% nella fascia 15-34 anni).<sup>24</sup>\nQuesto indica un\'incapacità del territorio di assorbire le nuove\ngenerazioni in percorsi di carriera stabili.</p>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Precarietà</strong>: Nei primi nove mesi del 2024, le\nassunzioni a tempo indeterminato in regione sono diminuite del 7,2%,\nmentre sono aumentate quelle a tempo determinato (+2,5%) e intermittente\n(+4,7%).<sup>25</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Salari</strong>: Il lavoro nelle Marche rimane caratterizzato\nda salari bassi, con una media annua per i giovani di circa 12.000 euro,\nconfigurando una situazione di "lavoro povero"\nstrutturale.<sup>10</sup></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Genere</strong>: Persiste un divario di quasi 10 punti nel\ntasso di occupazione tra uomini (72,2%) e donne\n(62,7%).<sup>24</sup></p>\n</blockquote></li>\n</ul>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Previsioni e Fabbisogni</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Per il trimestre dicembre 2024 - febbraio 2025, la provincia di\nAncona prevede circa 10.090 nuove entrate, di cui il 30% riservato a\ngiovani under 30.<sup>3</sup> Tuttavia, solo il 26% di questi nuovi\ncontratti sarà di tipo stabile.<sup>3</sup> Il 15% delle posizioni\naperte riguarda profili dirigenziali e tecnici specializzati, una quota\nche segnala il disperato bisogno di competenze avanzate nelle aziende\nmeccaniche e digitali del territorio.</p>\n<table style="width:100%;border-collapse:collapse;font-size:12px;margin:12px 0">\n<colgroup>\n<col style="width: 33%" />\n<col style="width: 33%" />\n<col style="width: 33%" />\n</colgroup>\n<thead>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Criticità Occupazionale</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Incidenza / Valore</strong></th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top"><strong>Trend 2024-2025</strong></th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Ricorso alla CIG (Ore)</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">23,4 Milioni</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">+44,9%</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Saldo Assunzioni (Gen-Set)</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">-51,1% (rispetto a 2023)</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In forte calo</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Quota Lavoro Precario</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">~75% delle assunzioni</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In aumento</th>\n</tr>\n<tr>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">Tasso di Inattività</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">28,7%</th>\n<th style="padding:6px 8px;border:1px solid #e2e8f0;background:#f8f9fb;font-weight:600;vertical-align:top">In lieve calo</th>\n</tr>\n</thead>\n<tbody>\n</tbody>\n</table>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><sup>10</sup></p>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Sintesi\nTerritoriale: Senigallia vs Valli Misa-Nevola</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La mappatura evidenzia una geografia economica asimmetrica:</p>\n<ol type="1">\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Senigallia</strong>: È il centro dei servizi, del digitale e\ndel turismo. Soffre per la stagionalità e l\'alto costo degli immobili\nche allontana i giovani lavoratori.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Bassa Valle (Ostra, Trecastelli, Barbara)</strong>: È il\npolmone produttivo manifatturiero. Garantisce occupazione più stabile ma\nè vulnerabile ai cicli economici internazionali e ai rischi\nidraulici.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Alta Valle (Arcevia, Serra de\' Conti)</strong>: Soffre per la\ndesertificazione demografica e imprenditoriale. La resilienza qui è\nlegata al turismo esperienziale e alla piccola agricoltura di\nqualità.</p>\n</blockquote></li>\n</ol>\n<h4 style="font-size:14px;font-weight:700;margin:16px 0 8px;color:#FF8227">Conclusioni e\nRaccomandazioni Strategiche</h5>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Il quadro economico emerso dalla ricerca delinea un territorio che ha\nsaputo resistere a urti violenti (pandemia, alluvione, crisi\nenergetica), ma che sta perdendo slancio nella sua componente più\nvitale: i giovani e le piccole imprese.</p>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Per il programma "Economia e Lavoro" del 2026, si rendono necessarie\ntre azioni prioritarie:</p>\n<ul>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Potenziamento del Polo Tecnologico</strong>: Formalizzare la\ncollaborazione tra le eccellenze digitali (Namirial, Pluservice) e le\nscuole professionali locali per creare un bacino di competenze che\ntrattenga i talenti sul territorio.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Supporto alla Transizione Ecologica della\nManifattura</strong>: Facilitare gli investimenti in bioedilizia e\npackaging sostenibile (modello Subissati/Fiorini) attraverso\nsburocratizzazione e incentivi locali per le aziende che riducono\nl\'impatto ambientale lungo l\'asta del Misa.</p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px"><strong>Contrasto al Lavoro Povero</strong>: Promuovere protocolli di\nqualità del lavoro nel settore turistico che premino le aziende capaci\ndi offrire contratti stabili e salari dignitosi, utilizzando il brand\n"Senigallia" non solo come richiamo turistico ma come bollino di etica\nproduttiva.</p>\n</blockquote></li>\n</ul>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La sfida della prossima amministrazione sarà quella di trasformare\n"Le Terre della Marca Senone" da una semplice unione amministrativa in\nun distretto economico integrato, dove la costa fornisce la visibilità e\nil digitale, mentre le valli garantiscono la produzione sostenibile e la\nqualità del vivere rurale.</p>\n<h5 style="font-size:13px;font-weight:600;margin:14px 0 6px;color:#1e293b">Works cited</h5>\n<ol type="1">\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Ufficio Suap - Comune di Senigallia, accessed on March 26, 2026, <a\nhref="https://www.comune.senigallia.an.it/amministrazione/unita_organizzativa/ufficio-suap/"><u>https://www.comune.senigallia.an.it/amministrazione/unita_organizzativa/ufficio-suap/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Funzioni trasferite all\'Unione dei Comuni - Comune di Senigallia,\naccessed on March 26, 2026, <a\nhref="https://www.comune.senigallia.an.it/amministrazione/unita_organizzativa/funzioni-trasferite-allunione-dei-comuni/"><u>https://www.comune.senigallia.an.it/amministrazione/unita_organizzativa/funzioni-trasferite-allunione-dei-comuni/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Confartigianato e CNA, il Bilancio del 2024 - Confartigianato\nImprese, accessed on March 26, 2026, <a\nhref="https://confartigianatoimprese.net/confartigianato-e-cna-quadro-complesso-dal-bilancio-2024-in-cui-fondamentale-e-il-ruolo-di-rappresentanza/"><u>https://confartigianatoimprese.net/confartigianato-e-cna-quadro-complesso-dal-bilancio-2024-in-cui-fondamentale-e-il-ruolo-di-rappresentanza/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">LE IMPRESE NELLE MARCHE, accessed on March 26, 2026, <a\nhref="https://statistica.regione.marche.it/Portals/0/Settori/attivita_produttive_e_ict/e3214c17-Report%20Imprese%20Marche.pdf"><u>https://statistica.regione.marche.it/Portals/0/Settori/attivita_produttive_e_ict/e3214c17-Report%20Imprese%20Marche.pdf</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">accessed on March 26, 2026, <a\nhref="https://www.occhioallanotizia.it/turismo-nelle-marche-borghi-innovazione-e-numeri-da-record-nel-2024-registrati-27-milioni-di-arrivi-turistici-e-118-milioni-presenze/#:~:text=Tra%20le%20destinazioni%20pi%C3%B9%20gettonate,arrivi%20e%201.013.443%20presenze."><u>https://www.occhioallanotizia.it/turismo-nelle-marche-borghi-innovazione-e-numeri-da-record-nel-2024-registrati-27-milioni-di-arrivi-turistici-e-118-milioni-presenze/#:~:text=Tra%20le%20destinazioni%20pi%C3%B9%20gettonate,arrivi%20e%201.013.443%20presenze.</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Turismo nelle Marche: borghi, innovazione e numeri da record. Nel\n2024 registrati 2,7 milioni di arrivi turistici e 11,8 milioni presenze\n- Occhio alla Notizia, accessed on March 26, 2026, <a\nhref="https://www.occhioallanotizia.it/turismo-nelle-marche-borghi-innovazione-e-numeri-da-record-nel-2024-registrati-27-milioni-di-arrivi-turistici-e-118-milioni-presenze/"><u>https://www.occhioallanotizia.it/turismo-nelle-marche-borghi-innovazione-e-numeri-da-record-nel-2024-registrati-27-milioni-di-arrivi-turistici-e-118-milioni-presenze/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Movimento turistico registrato negli esercizi ricettivi della Regione\nMarche – Primi 15 Comuni Periodo Gennaio/Agosto 2024 – DATI PROVVISORI,\naccessed on March 26, 2026, <a\nhref="https://static.regione.marche.it/portals/0/Turismo%20Sport%20Tempo%20Libero/Turismo/Osservatorio/flussi_Turistici_gennaio_settembre.pdf"><u>https://static.regione.marche.it/portals/0/Turismo%20Sport%20Tempo%20Libero/Turismo/Osservatorio/flussi_Turistici_gennaio_settembre.pdf</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Proposta della Strategia di Sviluppo Locale - Regione Marche,\naccessed on March 26, 2026, <a\nhref="https://www.regione.marche.it/portals/0/Agricoltura/CSR%2023-27/Leader/SSL%20SRG06%20Colli%20esini%20finale_2023.pdf"><u>https://www.regione.marche.it/portals/0/Agricoltura/CSR%2023-27/Leader/SSL%20SRG06%20Colli%20esini%20finale_2023.pdf</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Le Marche dei record si presentano alla BIT - Flussi turistici totali\n+4% e stranieri +15% rispetto al 2023, accessed on March 26, 2026, <a\nhref="https://www.regione.marche.it/News-ed-Eventi/Categorie/Post/108673/Le-Marche-dei-record-si-presentano-alla-BIT-Flussi-turistici-totali-4-e-stranieri-15-rispetto-al-2023-13-e-28-rispetto-al-2019"><u>https://www.regione.marche.it/News-ed-Eventi/Categorie/Post/108673/Le-Marche-dei-record-si-presentano-alla-BIT-Flussi-turistici-totali-4-e-stranieri-15-rispetto-al-2023-13-e-28-rispetto-al-2019</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Notizie per la stampa - CGIL Marche, accessed on March 26, 2026, <a\nhref="https://www.marche.cgil.it/studi-ires/"><u>https://www.marche.cgil.it/studi-ires/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Alleanza contro la povertà. Report 2025 dell\'Osservatorio sulle\nvulnerabilità nelle Marche, accessed on March 26, 2026, <a\nhref="https://www.grusol.it/apriInformazioniN.asp?id=9892"><u>https://www.grusol.it/apriInformazioniN.asp?id=9892</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La TOP-500 aziende in Marche - Abbrevia X, accessed on March 26,\n2026, <a\nhref="https://x.abbrevia.it/ricerca-aziende-italiane/marche/top-500"><u>https://x.abbrevia.it/ricerca-aziende-italiane/marche/top-500</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">La TOP-500 aziende a Ancona - Abbrevia X, accessed on March 26, 2026,\n<a\nhref="https://x.abbrevia.it/ricerca-aziende-italiane/marche/ancona/top-500"><u>https://x.abbrevia.it/ricerca-aziende-italiane/marche/ancona/top-500</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">PLASTICA VALMISA - S.P.A., Partita IVA: 00694910423, Fatturato,\nDipendenti, PEC, accessed on March 26, 2026, <a\nhref="https://www.ufficiocamerale.it/1806/plastica-valmisa-spa"><u>https://www.ufficiocamerale.it/1806/plastica-valmisa-spa</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">PLASTICA VALMISA - S.P.A. (AN), gratis i fatturati, bilanci,\nindici... - ReportAziende.it, accessed on March 26, 2026, <a\nhref="https://www.reportaziende.it/plastica_valmisa_spa_an_00694910423"><u>https://www.reportaziende.it/plastica_valmisa_spa_an_00694910423</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">SUBISSATI S.R.L., Partita IVA: 01234300422, Fatturato, Dipendenti,\nPEC - Ufficio Camerale, accessed on March 26, 2026, <a\nhref="https://www.ufficiocamerale.it/7502/subissati-srl"><u>https://www.ufficiocamerale.it/7502/subissati-srl</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">PLUSERVICE - S.R.L., Partita IVA: 01140590421, Fatturato, Dipendenti,\nPEC, accessed on March 26, 2026, <a\nhref="https://www.ufficiocamerale.it/8825/pluservice-srl"><u>https://www.ufficiocamerale.it/8825/pluservice-srl</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">PLUSERVICE - S.R.L. (AN), gratis i fatturati, bilanci, indici... -\nReportAziende.it, accessed on March 26, 2026, <a\nhref="https://www.reportaziende.it/pluservice_srl_an_01140590421"><u>https://www.reportaziende.it/pluservice_srl_an_01140590421</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">SOCIETA\' COOPERATIVA PESCATORI (AN), gratis i fatturati, bilanci,\nindici... - ReportAziende.it, accessed on March 26, 2026, <a\nhref="https://www.reportaziende.it/societa_cooperativa_pescatori_molluschicoltori_copemo_societa_cooperativa_an_00215860420"><u>https://www.reportaziende.it/societa_cooperativa_pescatori_molluschicoltori_copemo_societa_cooperativa_an_00215860420</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Le Associazioni sociali - Comune di Senigallia, accessed on March 26,\n2026, <a\nhref="https://www.comune.senigallia.an.it/vivere-il-comune/territorio/le-associazioni-sociali/"><u>https://www.comune.senigallia.an.it/vivere-il-comune/territorio/le-associazioni-sociali/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Codice ORPS Denominazione Natura giuridica Partita iva Codice fiscale\nProvincia Comune Numero decreto iscrizione Data descreto i - Regione\nMarche, accessed on March 26, 2026, <a\nhref="https://www.regione.marche.it/portals/0/Sociale/TerzoSettore/CoopSoc/REGISTRO%202025/Allegato%201_Albo%20Coop%20tipo%20A.pdf"><u>https://www.regione.marche.it/portals/0/Sociale/TerzoSettore/CoopSoc/REGISTRO%202025/Allegato%201_Albo%20Coop%20tipo%20A.pdf</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Presentato il REPORT 2024 OSSERVATORIO SULLE VULNERABILITA\' NELLE\nMARCHE, accessed on March 26, 2026, <a\nhref="https://aclimarche.it/presentato-il-report-2024-dellosservatorio-sulle-vulnerabilita-nelle-marche/"><u>https://aclimarche.it/presentato-il-report-2024-dellosservatorio-sulle-vulnerabilita-nelle-marche/</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">In 10 anni perse 128 mila aziende artigiane, ma nel 2025 imprese\nstabili: i dati di Cna, accessed on March 26, 2026, <a\nhref="https://tg24.sky.it/economia/2026/02/15/dati-imprese-artigiane"><u>https://tg24.sky.it/economia/2026/02/15/dati-imprese-artigiane</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">Lavoro, Marche: nel 2025 più Neet, disoccupati e inattivi tra gli\nunder 35 - Collettiva, accessed on March 26, 2026, <a\nhref="https://www.collettiva.it/copertine/lavoro/lavoro-marche-dati-2025-kj6b6acv"><u>https://www.collettiva.it/copertine/lavoro/lavoro-marche-dati-2025-kj6b6acv</u></a></p>\n</blockquote></li>\n<li style="font-size:13px;color:#475569;line-height:1.6;margin:0 0 4px"><blockquote>\n<p style="font-size:13px;color:#475569;line-height:1.7;margin:0 0 8px">IL MERCATO DEL LAVORO DELLE MARCHE: I PRIMI 9 MESI DEL 2024 E IL\nTERZO TRIMESTRE 2024, accessed on March 26, 2026, <a\nhref="https://www.regione.marche.it/portals/0/Lavoro_Formazione_Professionale/Osservatorio%20Lavoro/Lavoro%20Flash%20%20n.1%20_Dicembre2024.pdf"><u>https://www.regione.marche.it/portals/0/Lavoro_Formazione_Professionale/Osservatorio%20Lavoro/Lavoro%20Flash%20%20n.1%20_Dicembre2024.pdf</u></a></p>\n</blockquote></li>\n</ol>\n';
+
+
+var PC={"Turismo":"#0097C7","Commercio":"#7B2D8E","Ristorazione":"#D32030","Alimentare e gastronomia":"#E8731A","Artigianato":"#2855A0","Manifattura":"#2c3e50","Automotive":"#1abc9c","Servizi":"#8e44ad","Agricoltura":"#3AA335","Digitale":"#06b6d4"};
+var PR={"Turismo":"Turismo, Identit\u00e0 turistica","Commercio":"Commercio, Economia di vicinato","Ristorazione":"Trasversale turismo/commercio","Alimentare e gastronomia":"Filiera agroalimentare","Artigianato":"PMI e artigianato","Manifattura":"Reindustrializzazione sostenibile","Automotive":"\u2014","Servizi":"\u2014","Agricoltura":"Agricoltura, Economia di vallata","Digitale":"Digitale, Innovazione tecnologica"};
+var ZC={"Centro storico":"#7B2D8E","Lungomare":"#0097C7","Zone produttive":"#5b6e82","Periferia urbana":"#E8731A","Borghi e frazioni":"#3AA335"};
+var ZI={"Centro storico":"\ud83c\udfe0","Lungomare":"\ud83c\udfd6\ufe0f","Zone produttive":"\ud83c\udfed","Periferia urbana":"\ud83d\udea7","Borghi e frazioni":"\ud83c\udf3e"};
+var ZD={"Centro storico":"Dentro le mura, Portici, Foro Annonario, Piazza Roma, Corso II Giugno","Lungomare":"Stabilimenti, hotel sulla costa, locali sul mare","Zone produttive":"Aree industriali e artigianali","Periferia urbana":"Fuori dal centro storico, zone commerciali, statale","Borghi e frazioni":"Sant\u2019Angelo, Scapezzano, Casabianca, Marzocca, Montignano, Roncitelli, Cesano\u2026"};
+var A="#FF8227",T=P.length;
+var pct={};P.forEach(function(d){pct[d.pc]=(pct[d.pc]||0)+1});
+var psc=Object.entries(pct).sort(function(a,b){return b[1]-a[1]});
+var pmx=psc[0]?psc[0][1]:1;
+var zct={};P.forEach(function(d){zct[d.z]=(zct[d.z]||0)+1});
+var zsc=Object.entries(zct).sort(function(a,b){return b[1]-a[1]});
+var zmx=zsc[0]?zsc[0][1]:1;
+
+/* Pie */
+(function(){
+var svg=document.getElementById("pie"),pieTip=document.getElementById("pieTip");
+var cx=210,cy=150,R=110,r=68,LR=125,total=T,ang=-Math.PI/2,labels=[];
+psc.forEach(function(e){
+var cat=e[0],n=e[1],co=PC[cat]||"#999",pctV=Math.round(n/total*100),slice=n/total*Math.PI*2;
+var x1=cx+R*Math.cos(ang),y1=cy+R*Math.sin(ang),x2=cx+R*Math.cos(ang+slice),y2=cy+R*Math.sin(ang+slice);
+var ix1=cx+r*Math.cos(ang+slice),iy1=cy+r*Math.sin(ang+slice),ix2=cx+r*Math.cos(ang),iy2=cy+r*Math.sin(ang);
+var large=slice>Math.PI?1:0;
+var d="M"+x1+","+y1+" A"+R+","+R+" 0 "+large+" 1 "+x2+","+y2+" L"+ix1+","+iy1+" A"+r+","+r+" 0 "+large+" 0 "+ix2+","+iy2+" Z";
+var p=document.createElementNS("http://www.w3.org/2000/svg","path");
+p.setAttribute("d",d);p.setAttribute("fill",co);p.setAttribute("opacity","0.85");p.style.cssText="cursor:pointer;transition:all .15s";
+var catRef=cat,nRef=n,pctRef=pctV,coRef=co,refPR=PR[cat]||"";
+p.onmouseover=function(ev){this.setAttribute("opacity","1");this.setAttribute("transform","scale(1.03)");this.setAttribute("transform-origin",cx+"px "+cy+"px");pieTip.style.display="block";pieTip.innerHTML='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="width:12px;height:12px;border-radius:50%;background:'+coRef+';flex-shrink:0"></span><span style="font-size:14px;font-weight:700;color:'+coRef+'">'+catRef+'</span></div><div style="font-size:22px;font-weight:700;color:#1e293b">'+nRef+' <span style="font-size:13px;font-weight:500;color:#94a3b8">('+pctRef+'%)</span></div>'+(refPR&&refPR!=="\u2014"?'<div style="font-size:11px;color:#94a3b8;margin-top:4px">\u2192 Programma: '+refPR+'</div>':'')};
+p.onmousemove=function(ev){var rect=svg.closest(".pie-wrap").getBoundingClientRect();pieTip.style.left=(ev.clientX-rect.left+14)+"px";pieTip.style.top=(ev.clientY-rect.top-10)+"px"};
+p.onmouseout=function(){this.setAttribute("opacity","0.85");this.removeAttribute("transform");pieTip.style.display="none"};
+svg.appendChild(p);
+var midAng=ang+slice/2,lx=cx+LR*Math.cos(midAng),ly=cy+LR*Math.sin(midAng),isRight=Math.cos(midAng)>0,endX=isRight?lx+22:lx-22;
+labels.push({cat:cat,pct:pctV,co:co,lx:lx,ly:ly,endX:endX,isRight:isRight});ang+=slice});
+labels.forEach(function(lb){if(lb.pct<3)return;
+var line=document.createElementNS("http://www.w3.org/2000/svg","line");line.setAttribute("x1",lb.lx);line.setAttribute("y1",lb.ly);line.setAttribute("x2",lb.endX);line.setAttribute("y2",lb.ly);line.setAttribute("stroke",lb.co);line.setAttribute("stroke-width",1);line.setAttribute("opacity","0.5");svg.appendChild(line);
+var txt=document.createElementNS("http://www.w3.org/2000/svg","text");txt.setAttribute("x",lb.isRight?lb.endX+4:lb.endX-4);txt.setAttribute("y",lb.ly+1);txt.setAttribute("text-anchor",lb.isRight?"start":"end");txt.setAttribute("dominant-baseline","middle");txt.setAttribute("font-family","Poppins,sans-serif");txt.setAttribute("font-size","10");txt.setAttribute("font-weight","600");txt.setAttribute("fill",lb.co);txt.textContent=lb.pct+"% "+lb.cat;svg.appendChild(txt)})})();
+
+/* Category rows */
+var cH="";psc.forEach(function(e){
+var cat=e[0],n=e[1],co=PC[cat]||"#95a5a6",ref=PR[cat]||"";
+var its=P.filter(function(d){return d.pc===cat}).map(function(d){return "<div style='break-inside:avoid'>\u2022 "+d.n+"</div>"}).join("");
+var refHtml=ref&&ref!=="\u2014"?' <span class="cref">\u2192 '+ref+'</span>':"";
+cH+='<div class="cr" tabindex="0" role="button" aria-expanded="false" onclick="tc(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();tc(this)}"><div class="ch"><span class="dot" style="background:'+co+'" aria-hidden="true"></span><span class="cn">'+cat+refHtml+'</span><span class="cc" style="color:'+co+'">'+n+'</span></div><div class="bb" aria-hidden="true"><div class="bf" style="width:'+(n/pmx*100)+'%;background:linear-gradient(90deg,'+co+','+co+'aa)"></div></div><div class="dt" style="column-count:'+(n>12?2:1)+'">'+its+'</div></div>'});
+document.getElementById("cats").innerHTML=cH;
+
+/* Territory zones */
+var zH="";zsc.forEach(function(e){
+var zone=e[0],n=e[1],co=ZC[zone]||"#95a5a6",icon=ZI[zone]||"",desc=ZD[zone]||"",pctV=Math.round(n/T*100);
+var its=P.filter(function(d){return d.z===zone}).map(function(d){return "<div style='break-inside:avoid'>\u2022 "+d.n+" <span style='color:#94a3b8;font-size:11px'>("+d.pc+")</span></div>"}).join("");
+var isBorghi=zone==="Borghi e frazioni";
+zH+='<div class="tz'+(isBorghi?" tz-highlight":"")+'" tabindex="0" role="button" aria-expanded="false" onclick="tc(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();tc(this)}">';
+zH+='<div class="tz-head"><span class="tz-icon" aria-hidden="true">'+icon+'</span><div class="tz-info"><div class="tz-name">'+zone+'</div><div class="tz-desc">'+desc+'</div></div><div class="tz-nums"><div class="tz-count" style="color:'+co+'">'+n+'</div><div class="tz-pct">'+pctV+'%</div></div></div>';
+zH+='<div class="tz-bar"><div class="tz-fill" style="width:'+(n/zmx*100)+'%;background:'+co+'"></div></div>';
+zH+='<div class="dt tz-detail" style="column-count:'+(n>15?2:1)+'">'+its+'</div></div>'});
+document.getElementById("zones").innerHTML=zH;
+
+/* Drawers */
+var activeDrawer=null;
+function buildDrawer(){
+var h="";P.forEach(function(d,i){var co=PC[d.pc]||"#999";h+='<div class="dl-item" data-idx="'+i+'" data-name="'+d.n.toLowerCase()+'"><span class="dl-dot" style="background:'+co+'"></span><span class="dl-name">'+d.n+'</span><span class="dl-meta">'+d.pc+'</span></div>'});
+document.getElementById("drawerList").innerHTML=h;
+document.getElementById("drawerCount").textContent="383 aziende";
+document.getElementById("dossierBody").innerHTML=DOSSIER;
+}
+buildDrawer();
+function openDrawer(which){
+closeDrawer();
+activeDrawer=which;
+document.getElementById("drawerOverlay").classList.add("open");
+if(which==="aziende"){document.getElementById("drawerAziende").classList.add("open");setTimeout(function(){document.getElementById("drawerSearch").focus()},300)}
+else{document.getElementById("drawerDossier").classList.add("open")}
+document.body.style.overflow="hidden"}
+function closeDrawer(){
+document.getElementById("drawerOverlay").classList.remove("open");
+document.getElementById("drawerAziende").classList.remove("open");
+document.getElementById("drawerDossier").classList.remove("open");
+document.body.style.overflow="";activeDrawer=null}
+document.getElementById("drawerSearch").addEventListener("input",function(){
+var q=this.value.trim().toLowerCase(),items=document.querySelectorAll(".dl-item"),shown=0;
+items.forEach(function(el){var name=el.getAttribute("data-name");if(!q||name.indexOf(q)!==-1){el.classList.remove("dl-hidden");shown++}else{el.classList.add("dl-hidden")}});
+document.getElementById("drawerCount").textContent=shown+" di 383"+(q?" per \u201c"+this.value.trim()+"\u201d":"")});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&activeDrawer)closeDrawer()});
+
+/* Tabs */
+function sw(v){
+document.getElementById("vcat").className=v==="cat"?"":"hid";
+document.getElementById("vter").className=v==="ter"?"":"hid";
+document.getElementById("veco").className=v==="eco"?"":"hid";
+document.getElementById("tabCat").className="tab"+(v==="cat"?" on":"");document.getElementById("tabCat").setAttribute("aria-selected",v==="cat");
+document.getElementById("tabTer").className="tab"+(v==="ter"?" on":"");document.getElementById("tabTer").setAttribute("aria-selected",v==="ter");
+document.getElementById("tabEco").className="tab"+(v==="eco"?" on":"");document.getElementById("tabEco").setAttribute("aria-selected",v==="eco")}
+function tc(el){var d=el.querySelector(".dt");var show=d.style.display!=="block";d.style.display=show?"block":"none";el.setAttribute("aria-expanded",show)}
+/* Economy chart - category style with two bars */
+(function(){
+var EC=[
+{s:"Commercio",a:"ATECO 47",p:90,f:305,o:2180,c:"#7B2D8E"},
+{s:"Turismo",a:"ATECO 55-56",p:81,f:205,o:3450,c:"#0097C7"},
+{s:"Artigianato",a:"Albo Artigiani",p:43,f:240,o:3100,c:"#2855A0"},
+{s:"Ristorazione",a:"ATECO 56",p:42,f:135,o:2400,c:"#D32030"},
+{s:"Servizi",a:"ATECO 69-82",p:40,f:190,o:1650,c:"#8e44ad"},
+{s:"Manifattura",a:"ATECO 10-33",p:32,f:497,o:2400,c:"#2c3e50"},
+{s:"Alim. e gastronomia",a:"ATECO 10, 47.2",p:29,f:185,o:950,c:"#E8731A"},
+{s:"Automotive",a:"ATECO 45",p:22,f:95,o:420,c:"#1abc9c"},
+{s:"Agricoltura",a:"ATECO 01-03",p:3,f:85,o:980,c:"#3AA335"},
+{s:"Digitale",a:"ATECO 62-63",p:1,f:89,o:310,c:"#06b6d4"},
+{s:"Filiera Ittica",a:"ATECO 03, 46.38",p:0,f:50,o:350,c:"#e67e22"},
+{s:"Terzo settore",a:"ATECO 87-88",p:0,f:72,o:1450,c:"#E8731A"}
+];
+var maxP=90,maxF=497,maxO=3450;
+function makeBlock(title,key,max,unit,prefix){
+var h='<div style="margin-bottom:28px"><div class="st">'+title+'</div>';
+EC.forEach(function(d){
+var val=d[key];
+var pW=maxP>0?(d.p/maxP*100):0;
+var vW=max>0?(val/max*100):0;
+h+='<div class="cr" style="cursor:default;padding:12px 0;margin-bottom:0">';
+h+='<div class="ch" style="margin-bottom:6px"><span class="dot" style="background:'+d.c+'"></span><span class="cn">'+d.s+' <span style="font-size:10px;color:#94a3b8;font-weight:400">'+d.a+'</span></span><span class="cc" style="color:#1e293b">'+unit+val.toLocaleString("it-IT")+(key==="f"?"M":"")+'</span></div>';
+// Economic bar (black) - first
+h+='<div class="bb"><div class="bf" style="width:'+vW+'%;background:linear-gradient(90deg,#1e293b,#475569)"></div></div>';
+// Pergamene bar (sector color) - second
+h+='<div style="display:flex;align-items:center;gap:8px;margin-top:4px">';
+h+='<div class="bb" style="flex:1"><div class="bf" style="width:'+pW+'%;background:linear-gradient(90deg,'+d.c+','+d.c+'aa)"></div></div>';
+h+='<div style="min-width:40px;font-size:12px;font-weight:600;color:'+d.c+';text-align:right">'+d.p+'</div>';
+h+='</div>';
+h+='</div>';
+h+='</div>';
+});
+h+='</div>';
+return h;
+}
+var out=makeBlock("Fatturato per settore (&euro;M) vs Pergamene Olivetti 2026","f",maxF,"\u20ac","Fatturato");
+out+=makeBlock("Occupazione per settore vs Pergamene Olivetti 2026","o",maxO,"","Occupati");
+document.getElementById("ecoChart").innerHTML=out;
+})();
+
+sw("cat");
+</script>
+</body></html>
