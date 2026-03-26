@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="it"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le aziende che resistono - Radiografia</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Poppins,sans-serif;background:#f8f9fb;color:#1e293b;font-size:15px}.rb{height:5px;background:linear-gradient(90deg,#7B2D8E,#2855A0,#0097C7,#3AA335,#F5C300,#E8731A,#D32030)}.rb3{height:3px;background:linear-gradient(90deg,#7B2D8E,#2855A0,#0097C7,#3AA335,#F5C300,#E8731A,#D32030)}.hdr{background:#fff;border-bottom:1px solid #e2e8f0;padding:24px 24px 18px}.mx{max-width:1100px;margin:0 auto}.sub{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#FF8227;margin-bottom:6px}h1{font-size:26px;font-weight:700;margin:0 0 6px}.dsc{font-size:14px;color:#64748b;max-width:650px;line-height:1.5}.search-wrap{position:relative;margin-top:14px;max-width:420px}.search-input{font-family:Poppins,sans-serif;font-size:15px;width:100%;padding:10px 14px 10px 38px;border:1px solid #e2e8f0;border-radius:10px;background:#f8f9fb;outline:none;transition:all .2s}.search-input:focus{border-color:#FF8227;background:#fff;box-shadow:0 0 0 3px #FF822715}.search-icon{position:absolute;left:12px;top:11px;font-size:16px;color:#94a3b8;pointer-events:none}.search-drop{position:absolute;top:44px;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);z-index:999;max-height:340px;overflow-y:auto;display:none}.search-drop.vis{display:block}.sr{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9;transition:background .15s}.sr:last-child{border:none}.sr:hover{background:#f8f9fb}.sr-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.sr-name{font-size:14px;flex:1}.sr-name em{font-style:normal;background:#FF822730;border-radius:2px;padding:0 1px}.sr-cat{font-size:11px;color:#94a3b8}.sr-none{padding:14px;text-align:center;font-size:13px;color:#94a3b8}.tabs{display:flex;gap:4px;margin-top:14px}.tab{font-family:Poppins,sans-serif;font-size:14px;font-weight:600;padding:10px 22px;border:none;border-radius:8px 8px 0 0;cursor:pointer;background:transparent;color:#94a3b8;border-bottom:2px solid transparent}.tab.on{background:#FF822710;color:#FF8227;border-bottom-color:#FF8227}.ct{max-width:1100px;margin:0 auto;padding:24px 24px 20px}.top-row{display:flex;gap:24px;margin-bottom:28px;align-items:flex-start}.pie-wrap{flex-shrink:0;position:relative;min-width:420px}.pie-center{position:absolute;top:150px;left:210px;transform:translate(-50%,-50%);text-align:center}.pie-center b{font-size:28px;font-weight:700;display:block;line-height:1;color:#1e293b}.pie-center span{font-size:11px;color:#94a3b8}.crit-box{flex:1;display:flex;flex-direction:column;gap:10px}.crit-used{background:#FFF5EB;border:1px solid #FF822733;border-radius:12px;padding:16px 18px;border-left:4px solid #FF8227}.crit-used h4{font-size:13px;font-weight:700;color:#FF8227;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px}.crit-used p{font-size:14px;color:#1e293b;margin:0;line-height:1.5}.crit-alt{background:#f0faf4;border:1px solid #3AA33522;border-radius:12px;padding:14px 16px;border-left:4px solid #3AA335}.crit-alt h4{font-size:12px;font-weight:700;color:#3AA335;margin:0 0 10px;text-transform:uppercase;letter-spacing:1px}.crit-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}.crit-item:last-child{margin:0}.crit-item .ci-icon{font-size:18px;flex-shrink:0;margin-top:1px}.crit-item .ci-title{font-size:13px;font-weight:600;color:#1e293b}.crit-item .ci-desc{font-size:12px;color:#64748b;margin-top:2px;line-height:1.4}.st{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;margin-bottom:12px}.cr{cursor:pointer;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:6px;transition:all .3s}.cr:hover{border-color:#ccc}.ch{display:flex;align-items:center;gap:10px;margin-bottom:6px}.dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}.cn{font-size:14px;font-weight:600;flex:1}.cref{font-size:11px;color:#94a3b8;margin-left:8px}.cc{font-size:20px;font-weight:700;min-width:36px;text-align:right}.bb{height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden}.bf{height:100%;border-radius:3px}.dt{margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:13px;color:#64748b;line-height:1.6;display:none;column-gap:20px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.chip{font-family:Poppins,sans-serif;font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid #e2e8f0;background:#fff;color:#94a3b8;cursor:pointer;display:flex;align-items:center;gap:5px}.chip.on{border-width:2px}.cdot{width:9px;height:9px;border-radius:50%;display:inline-block}#map{width:100%;height:600px;border-radius:12px;border:1px solid #e2e8f0}.ins{margin-top:16px;border-radius:12px;padding:18px 20px;background:#FF82270a;border:1px solid #FF822722}.ins h3{font-size:14px;font-weight:700;color:#FF8227;margin:0 0 6px}.ins p{font-size:14px;color:#334155;line-height:1.6;margin:0}.miss{margin-top:28px;background:#3AA33508;border:1px solid #3AA33522;border-radius:14px;padding:20px 20px}.miss h3{font-size:14px;font-weight:700;color:#3AA335;margin:0 0 4px}.miss-i{display:flex;align-items:center;gap:12px;background:#fff;border-radius:8px;padding:12px 14px;margin-bottom:8px}.mbtn{background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#94a3b8;font-family:Poppins,sans-serif;padding:10px 0;display:flex;align-items:center;gap:6px}.mbox{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 20px;margin-top:6px;display:none}.mbox p{font-size:13px;color:#475569;line-height:1.7;margin:0 0 10px}.mbox p:last-child{margin:0}.hid{display:none}.fs-btn{background:#fff;border:2px solid rgba(0,0,0,0.2);border-radius:4px;cursor:pointer;font-size:18px;width:34px;height:34px;line-height:34px;text-align:center}.fs-btn:hover{background:#f4f4f4}
+@media(max-width:768px){body{font-size:16px}.hdr{padding:18px 16px 14px}h1{font-size:22px}.sub{font-size:11px}.dsc{font-size:14px}.search-input{font-size:16px;padding:12px 14px 12px 40px}.tab{font-size:14px;padding:10px 16px}.ct{padding:16px}.top-row{flex-direction:column;align-items:stretch}.pie-wrap{min-width:auto;width:100%;overflow-x:auto}.pie-center{left:50%}.crit-box{width:100%}.chips{gap:4px}.chip{font-size:12px;padding:6px 10px}#map{height:450px}.cr{padding:14px 14px}.cn{font-size:14px}.dt{font-size:13px}.ins p,.miss p,.mbox p{font-size:14px}.sr-name{font-size:14px}}
+</style>
+</head>
+<body>
+<div class="rb"></div>
+<div class="hdr"><div class="mx">
+<div class="sub">Coalizione di centrosinistra 2026 &mdash; Analisi &ldquo;Le aziende che resistono&rdquo;</div>
+<h1>383 pergamene, una radiografia</h1>
+<p class="dsc">Dove vanno i riconoscimenti dell&rsquo;Amministrazione Olivetti? Chi &egrave; dentro, chi resta fuori, e cosa ci dice sulla visione economica di questa giunta.</p>
+<div class="search-wrap"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="searchIn" placeholder="Cerca un'azienda..." autocomplete="off"><div class="search-drop" id="searchDrop"></div></div>
+<div class="tabs"><button class="tab on" onclick="sw('map')">Mappa territoriale</button><button class="tab" onclick="sw('dash')">Categorie</button></div>
+</div></div>
+<div class="ct">
+<div id="vmap">
+<div class="st">383 attivit&agrave; sulla mappa &mdash; clicca una categoria per filtrarle</div>
+<div class="chips" id="chips"></div>
+<div id="map"></div>
+<div style="font-size:11px;color:#94a3b8;margin-top:6px;text-align:right">&copy; OpenStreetMap contributors &mdash; Clicca sui pallini per i dettagli</div>
+<div class="ins"><h3>Il dato politico</h3><p>La mappa parla da sola: la stragrande maggioranza delle attivit&agrave; premiate si concentra tra centro storico e lungomare. I <strong style="color:#3AA335">borghi</strong> dove vive met&agrave; della popolazione di Senigallia sono quasi vuoti. Le pergamene di Olivetti premiano una citt&agrave; che esiste solo tra la Rocca e il mare.</p></div>
+</div>
+<div id="vdash" class="hid">
+<div class="top-row">
+<div class="pie-wrap"><svg id="pie" width="420" height="300" viewBox="0 0 420 300"></svg><div class="pie-center"><b>383</b><span>pergamene</span></div><div id="pieTip" style="display:none;position:absolute;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;box-shadow:0 4px 12px rgba(0,0,0,0.12);pointer-events:none;z-index:10;font-family:Poppins,sans-serif;min-width:180px"></div></div>
+<div class="crit-box">
+<div class="crit-used"><h4>&#9888;&#65039; Il criterio di Olivetti</h4><p><strong>20 anni di apertura</strong> &mdash; un dato puramente anagrafico. Nessuna valutazione di merito, nessun regolamento, nessuna commissione. Basta esistere.</p></div>
+<div class="crit-alt"><h4>&#10004;&#65039; I criteri che si potevano usare</h4>
+<div class="crit-item"><span class="ci-icon">&#128188;</span><div><div class="ci-title">Investimento nel territorio</div><div class="ci-desc">Assunzioni stabili, formazione, contratti regolari. Avrebbe premiato chi crea lavoro.</div></div></div>
+<div class="crit-item"><span class="ci-icon">&#127793;</span><div><div class="ci-title">Innovazione e sostenibilit&agrave;</div><div class="ci-desc">Transizione digitale, economia circolare, efficienza energetica. Avrebbe premiato chi guarda avanti.</div></div></div>
+<div class="crit-item"><span class="ci-icon">&#129309;</span><div><div class="ci-title">Impatto sociale</div><div class="ci-desc">Inclusione, accessibilit&agrave;, rapporto con la comunit&agrave;. Avrebbe premiato chi genera valore collettivo.</div></div></div>
+</div></div></div>
+<div class="st">Ripartizione per settore economico</div>
+<div id="cats"></div>
+<div class="miss" id="miss"></div>
+</div>
+</div>
+<div class="mx" style="padding:0 24px 32px">
+<button class="mbtn" onclick="tm()"><span id="ma" style="display:inline-block;transition:transform .2s">&#9654;</span> Nota metodologica</button>
+<div class="mbox" id="mb">
+<p><strong>Fonte dei dati.</strong> Elenco ufficiale trasmesso dal Comune di Senigallia in risposta all&rsquo;interrogazione consiliare del consigliere Dario Romano (2 settembre 2025).</p>
+<p><strong>Classificazione.</strong> 9 settori economici allineati ai pilastri del programma di coalizione.</p>
+<p><strong>Geolocalizzazione.</strong> Coordinate verificate sulla mappa reale di Senigallia.</p>
+<p><strong>Limiti.</strong> Analisi a uso interno della coalizione, marzo 2026.</p>
+</div>
+</div>
+<div class="rb3"></div>
+<script>
+/* =============================================
+   COLORI MAPPA (per i pallini sulla mappa)
+   ============================================= */
+var MC={"Spiaggia":"#0097C7","Hotel":"#2855A0","Centro":"#7B2D8E","Borghi":"#3AA335","Industria":"#5b6e82","Farmacie":"#e84393"};
+
+/* =============================================
+   COLORI PROGRAMMA (per torta e categorie)
+   ============================================= */
+var PC={"Turismo":"#0097C7","Commercio":"#7B2D8E","Ristorazione":"#D32030","Alimentare e gastronomia":"#E8731A","Artigianato":"#2855A0","Manifattura":"#2c3e50","Automotive":"#1abc9c","Servizi":"#8e44ad","Agricoltura":"#3AA335"};
+var PR={"Turismo":"Turismo, Identit\u00e0 turistica, Concessioni Balneari","Commercio":"Commercio, Economia di vicinato","Ristorazione":"Trasversale turismo/commercio","Alimentare e gastronomia":"Agricoltura, filiera agroalimentare","Artigianato":"PMI e artigianato","Manifattura":"Reindustrializzazione sostenibile","Automotive":"\u2014","Servizi":"\u2014","Agricoltura":"Agricoltura, Economia di vallata"};
+
+/* =============================================
+   CONFINE COMUNALE (GeoJSON semplificato)
+   ============================================= */
+var BDY={"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[13.131,43.677],[13.1337,43.6757],[13.136,43.6738],[13.1376,43.6717],[13.1397,43.6691],[13.142,43.6682],[13.1442,43.6711],[13.1498,43.6699],[13.1528,43.6671],[13.1543,43.6662],[13.1565,43.6662],[13.1555,43.6645],[13.1546,43.6633],[13.1549,43.6609],[13.1555,43.6592],[13.1541,43.6578],[13.1532,43.6562],[13.153,43.6546],[13.1515,43.653],[13.1517,43.6512],[13.1517,43.6494],[13.1504,43.6483],[13.1498,43.6451],[13.1493,43.6418],[13.1467,43.6408],[13.145,43.6383],[13.1468,43.6354],[13.1458,43.6341],[13.1475,43.6329],[13.1499,43.6313],[13.1541,43.6316],[13.1583,43.6339],[13.1616,43.636],[13.1622,43.6369],[13.1642,43.6376],[13.1682,43.6376],[13.1713,43.6371],[13.1738,43.638],[13.1769,43.6398],[13.1792,43.6404],[13.1838,43.6399],[13.1869,43.6401],[13.1894,43.6403],[13.1926,43.6406],[13.1958,43.6407],[13.1958,43.6385],[13.1951,43.6355],[13.1921,43.633],[13.1899,43.6297],[13.1888,43.6271],[13.1903,43.6241],[13.1879,43.6219],[13.1872,43.6204],[13.187,43.6186],[13.1892,43.617],[13.1878,43.614],[13.1876,43.6113],[13.186,43.6077],[13.1852,43.6053],[13.1883,43.6045],[13.1942,43.605],[13.1951,43.6076],[13.1964,43.6102],[13.1971,43.6123],[13.197,43.615],[13.1981,43.6178],[13.1996,43.6201],[13.2015,43.6223],[13.2036,43.624],[13.2049,43.6248],[13.2054,43.6267],[13.2059,43.6288],[13.2077,43.6302],[13.2099,43.6317],[13.2122,43.6326],[13.2154,43.633],[13.2171,43.6343],[13.2197,43.6345],[13.2234,43.6344],[13.2255,43.6361],[13.2287,43.6369],[13.2312,43.6369],[13.2343,43.6366],[13.2381,43.6357],[13.2419,43.6347],[13.2451,43.6336],[13.2479,43.6327],[13.2521,43.6314],[13.2553,43.6311],[13.2583,43.6315],[13.2607,43.6327],[13.2615,43.6352],[13.2647,43.6379],[13.268,43.6409],[13.2679,43.6443],[13.2666,43.6467],[13.2699,43.6485],[13.2741,43.6489],[13.2783,43.649],[13.2818,43.6508],[13.2853,43.6535],[13.2855,43.6549],[13.29,43.6528],[13.2934,43.6517],[13.298,43.6513],[13.2997,43.6536],[13.2998,43.6576],[13.3018,43.6609],[13.3,43.6625],[13.2966,43.6647],[13.2973,43.668],[13.2998,43.6715],[13.2705,43.6878],[13.249,43.7006],[13.2407,43.7058],[13.236,43.7089],[13.2315,43.7118],[13.2261,43.716],[13.222,43.7195],[13.2218,43.7211],[13.222,43.7237],[13.2218,43.7235],[13.2215,43.7228],[13.2207,43.722],[13.2204,43.7228],[13.2208,43.7232],[13.2206,43.7234],[13.2184,43.7227],[13.217,43.7225],[13.2105,43.7257],[13.1921,43.7375],[13.1865,43.7412],[13.1847,43.7425],[13.1836,43.7431],[13.1831,43.7437],[13.1826,43.7444],[13.1811,43.7454],[13.1731,43.75],[13.1695,43.7486],[13.1645,43.7456],[13.1553,43.7409],[13.1438,43.7413],[13.1409,43.7363],[13.1373,43.7324],[13.1307,43.7306],[13.1249,43.7298],[13.12,43.7289],[13.1188,43.7257],[13.1205,43.722],[13.1209,43.7197],[13.1215,43.7175],[13.1221,43.7158],[13.1236,43.7137],[13.1256,43.7101],[13.1279,43.7065],[13.1317,43.7056],[13.1337,43.7045],[13.1331,43.7025],[13.1311,43.7],[13.1302,43.6969],[13.1318,43.6938],[13.131,43.6902],[13.1317,43.6876],[13.1328,43.6854],[13.1346,43.683],[13.1364,43.6808],[13.1321,43.6793],[13.131,43.677]]]}};
+
+/* =============================================
+   NOMI BORGHI (etichette sulla mappa)
+   ============================================= */
+var BG=[["Marzocca",43.698,13.275],["Montignano",43.672,13.248],["Scapezzano",43.680,13.183],["Roncitelli",43.670,13.173],["Vallone",43.700,13.198],["Cesano",43.695,13.158],["Sant'Angelo",43.670,13.195],["Ciarnin",43.710,13.240],["Cannella",43.688,13.206],["Brugnetto",43.660,13.152],["Bettolelle",43.655,13.192],["San Silvestro",43.658,13.260],["Castellaro",43.650,13.270],["Casabianca",43.690,13.231],["Gabriella",43.697,13.200]];
+
+var A="#FF8227";
+
+/* =============================================
+   DATASET AZIENDE
+   Formato: {n:"Nome", lat:43.xxx, lon:13.xxx, mc:"CatMappa", pc:"CatProgramma"}
+   mc = categoria per colore sulla mappa (Spiaggia/Hotel/Centro/Borghi/Industria/Farmacie)
+   pc = categoria per torta e elenco (Turismo/Commercio/Ristorazione/...)
+   ============================================= */
+var P=[
+{n:"Hotel Regina",lat:43.7198,lon:13.2185,mc:"Hotel",pc:"Turismo"},
+{n:"Farmacia Manocchi-Carloni",lat:43.7151,lon:13.2185,mc:"Farmacie",pc:"Commercio"},
+{n:"Angelini Tendaggi",lat:43.7153,lon:13.2166,mc:"Centro",pc:"Commercio"},
+{n:"Albergo Ristorante Bice dei Fratelli Brunetti",lat:43.7148,lon:13.2172,mc:"Hotel",pc:"Turismo"},
+{n:"Bucci autotrasporti",lat:43.6947,lon:13.2442,mc:"Industria",pc:"Servizi"},
+{n:"Pongetti Ristorante",lat:43.7158,lon:13.2168,mc:"Centro",pc:"Ristorazione"},
+{n:"Angelini Corniceria",lat:43.7156,lon:13.2185,mc:"Centro",pc:"Commercio"},
+{n:"Tabaccheria Giorgetti",lat:43.7159,lon:13.2168,mc:"Centro",pc:"Commercio"},
+{n:"Panni Pieroni",lat:43.7148,lon:13.2166,mc:"Centro",pc:"Commercio"},
+{n:"Barzetti Deposito acqua e bibite",lat:43.7013,lon:13.23,mc:"Industria",pc:"Commercio"},
+{n:"Ferramenta Ansuini di Blancato Carlo Maria",lat:43.7139,lon:13.2171,mc:"Centro",pc:"Commercio"},
+{n:"Mancinelli Maurizio e C.",lat:43.7039,lon:13.2304,mc:"Industria",pc:"Artigianato"},
+{n:"Azienda Agricola Mezzanotte",lat:43.685,lon:13.212,mc:"Borghi",pc:"Agricoltura"},
+{n:"Officine Meccaniche Giorgi - IDROFER",lat:43.6943,lon:13.2479,mc:"Industria",pc:"Manifattura"},
+{n:"La Bussola di Giovenali - Atelier Sposa",lat:43.7157,lon:13.2165,mc:"Centro",pc:"Commercio"},
+{n:"Aguzzi arredamenti",lat:43.7157,lon:13.2186,mc:"Centro",pc:"Commercio"},
+{n:"Farmacia Landi Parere",lat:43.7162,lon:13.2178,mc:"Farmacie",pc:"Commercio"},
+{n:"Lucertini Arredamenti",lat:43.7146,lon:13.217,mc:"Centro",pc:"Commercio"},
+{n:"Pongetti mobili",lat:43.7161,lon:13.2175,mc:"Centro",pc:"Commercio"},
+{n:"Farmacia Filippini",lat:43.7138,lon:13.2202,mc:"Farmacie",pc:"Commercio"},
+{n:"Marchetti Fratelli srl",lat:43.6936,lon:13.243,mc:"Industria",pc:"Manifattura"},
+{n:"Tabaccheria Lambertina",lat:43.7156,lon:13.2175,mc:"Centro",pc:"Commercio"},
+{n:"Maurizio Canonico ferramenta",lat:43.7157,lon:13.2187,mc:"Centro",pc:"Commercio"},
+{n:"Capodagli gioielleria",lat:43.7155,lon:13.217,mc:"Centro",pc:"Commercio"},
+{n:"Emporio Pacenti",lat:43.7151,lon:13.2194,mc:"Centro",pc:"Commercio"},
+{n:"Cartoleria De Luca",lat:43.7147,lon:13.2182,mc:"Centro",pc:"Commercio"},
+{n:"Pierpaoli srl cosmetici e detersivi",lat:43.736,lon:13.1999,mc:"Industria",pc:"Manifattura"},
+{n:"Furcinon Norcineria",lat:43.7159,lon:13.2182,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Hotel Cristallo",lat:43.7158,lon:13.2273,mc:"Hotel",pc:"Turismo"},
+{n:"Sever\'s",lat:43.7149,lon:13.2169,mc:"Centro",pc:"Commercio"},
+{n:"Peverelli - Belle Arti Modellismo e Creativita\'",lat:43.714,lon:13.2173,mc:"Centro",pc:"Commercio"},
+{n:"Ferramenta Irrera",lat:43.7153,lon:13.2176,mc:"Centro",pc:"Commercio"},
+{n:"Carrozzeria Romagnola",lat:43.7022,lon:13.2277,mc:"Industria",pc:"Automotive"},
+{n:"Fiorini International",lat:43.733,lon:13.197,mc:"Industria",pc:"Manifattura"},
+{n:"Fiorini Packaging",lat:43.7335,lon:13.1975,mc:"Industria",pc:"Manifattura"},
+{n:"Panificio Pasticceria Gambelli Oreste",lat:43.7144,lon:13.2193,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"La Casa della Divisa",lat:43.7154,lon:13.2183,mc:"Centro",pc:"Commercio"},
+{n:"Foto Costantini",lat:43.7142,lon:13.2187,mc:"Centro",pc:"Servizi"},
+{n:"Ciriachi Casa",lat:43.7142,lon:13.2176,mc:"Centro",pc:"Commercio"},
+{n:"Hotel Trieste",lat:43.7188,lon:13.2209,mc:"Hotel",pc:"Turismo"},
+{n:"Bagni Pat 89",lat:43.7103,lon:13.2436,mc:"Spiaggia",pc:"Turismo"},
+{n:"Ottica Casagrande Sergio",lat:43.7143,lon:13.2166,mc:"Centro",pc:"Commercio"},
+{n:"Frutta e verdura Arcangeli Piero",lat:43.7146,lon:13.2173,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Mercerie Giraldi",lat:43.715,lon:13.218,mc:"Centro",pc:"Commercio"},
+{n:"Cantina Luigi Giusti",lat:43.7145,lon:13.2165,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Ottica Casagrande Lorella",lat:43.7159,lon:13.2174,mc:"Centro",pc:"Commercio"},
+{n:"Bonvini srl",lat:43.6969,lon:13.246,mc:"Industria",pc:"Manifattura"},
+{n:"Maestro Barbiere Streccioni Giannino",lat:43.716,lon:13.2179,mc:"Centro",pc:"Servizi"},
+{n:"Ristorante da Seta",lat:43.716,lon:13.219,mc:"Centro",pc:"Ristorazione"},
+{n:"Hotel Villa Pina",lat:43.7226,lon:13.2179,mc:"Hotel",pc:"Turismo"},
+{n:"Falegnameria Ramerini",lat:43.7035,lon:13.2332,mc:"Industria",pc:"Artigianato"},
+{n:"Impresa di Costruzioni Mentucci Aldo",lat:43.7024,lon:13.2278,mc:"Industria",pc:"Artigianato"},
+{n:"Impresa Benni Srl",lat:43.699,lon:13.2471,mc:"Industria",pc:"Artigianato"},
+{n:"Carrozzeria Adriatica",lat:43.7005,lon:13.2264,mc:"Industria",pc:"Automotive"},
+{n:"Albergo di Moretti Simona e Cristiano",lat:43.7143,lon:13.2324,mc:"Hotel",pc:"Turismo"},
+{n:"Villaggio Benvivere",lat:43.702,lon:13.2545,mc:"Hotel",pc:"Turismo"},
+{n:"Maglificio Berluti",lat:43.7314,lon:13.1981,mc:"Industria",pc:"Manifattura"},
+{n:"Omce imballaggi metallici di Rocchetti Amleto SpA",lat:43.699,lon:13.2473,mc:"Industria",pc:"Manifattura"},
+{n:"Diambra Patrizia",lat:43.7161,lon:13.2191,mc:"Centro",pc:"Commercio"},
+{n:"Bar Uliassi",lat:43.7352,lon:13.1975,mc:"Borghi",pc:"Ristorazione"},
+{n:"Bagni Firmina eredi di Belogi Maria Gabriella",lat:43.7136,lon:13.2332,mc:"Spiaggia",pc:"Turismo"},
+{n:"Casa della Plastica",lat:43.7154,lon:13.2181,mc:"Centro",pc:"Commercio"},
+{n:"Marchini gomme",lat:43.7016,lon:13.2311,mc:"Industria",pc:"Automotive"},
+{n:"Asoli Edilizia e Ceramiche",lat:43.7007,lon:13.2295,mc:"Industria",pc:"Commercio"},
+{n:"Latini Moto - Motomarche di Latini Franco",lat:43.7095,lon:13.2304,mc:"Centro",pc:"Automotive"},
+{n:"Saccaria",lat:43.6983,lon:13.2446,mc:"Industria",pc:"Manifattura"},
+{n:"Officina meccanica e Oleodinamica Carnevaletti",lat:43.703,lon:13.2274,mc:"Industria",pc:"Manifattura"},
+{n:"Bar Tabacchi Lotto Rossi Berluti",lat:43.716,lon:13.2191,mc:"Centro",pc:"Commercio"},
+{n:"Falegnameria Montagna Luciano",lat:43.7018,lon:13.2311,mc:"Industria",pc:"Artigianato"},
+{n:"Hotel Nettuno",lat:43.71,lon:13.2448,mc:"Hotel",pc:"Turismo"},
+{n:"Bagni 79 Carlo e Armanda",lat:43.7118,lon:13.2394,mc:"Spiaggia",pc:"Turismo"},
+{n:"Hotel Bologna",lat:43.721,lon:13.2181,mc:"Hotel",pc:"Turismo"},
+{n:"Neri gioielleria",lat:43.7157,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Moschini Mario e C. fabbro",lat:43.7018,lon:13.2265,mc:"Industria",pc:"Artigianato"},
+{n:"COMAR Macchine movimento terra",lat:43.6983,lon:13.2515,mc:"Industria",pc:"Manifattura"},
+{n:"Luminari fabbro",lat:43.7005,lon:13.2299,mc:"Industria",pc:"Artigianato"},
+{n:"Hotel Paradiso",lat:43.709,lon:13.2474,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Souvenir",lat:43.7126,lon:13.2365,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Perla",lat:43.7076,lon:13.2492,mc:"Hotel",pc:"Turismo"},
+{n:"Giovanetti serramenti",lat:43.7012,lon:13.2285,mc:"Industria",pc:"Artigianato"},
+{n:"Bagni Teresa 142",lat:43.7031,lon:13.2564,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni 76 Marzia Ferroni",lat:43.7121,lon:13.2381,mc:"Spiaggia",pc:"Turismo"},
+{n:"Viali Franco",lat:43.7141,lon:13.2172,mc:"Centro",pc:"Commercio"},
+{n:"Hotel Tritone",lat:43.7111,lon:13.2412,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Italia",lat:43.7164,lon:13.2245,mc:"Hotel",pc:"Turismo"},
+{n:"Granarelli Gioielleria",lat:43.7157,lon:13.2166,mc:"Centro",pc:"Commercio"},
+{n:"Impresa Edile Sartini",lat:43.7014,lon:13.2314,mc:"Industria",pc:"Artigianato"},
+{n:"Solazzi uomo",lat:43.715,lon:13.2167,mc:"Centro",pc:"Commercio"},
+{n:"Hotel Bel Sit",lat:43.705,lon:13.2535,mc:"Hotel",pc:"Turismo"},
+{n:"Il Fioraio di Costantini",lat:43.7157,lon:13.2171,mc:"Centro",pc:"Commercio"},
+{n:"Studio Pierluca e associati",lat:43.714,lon:13.2178,mc:"Centro",pc:"Servizi"},
+{n:"Panificio Sbriscia",lat:43.7148,lon:13.2179,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Hotel Fiorella",lat:43.7139,lon:13.2348,mc:"Hotel",pc:"Turismo"},
+{n:"Officina Mengucci Gianfranco",lat:43.7024,lon:13.2287,mc:"Industria",pc:"Automotive"},
+{n:"Panificio Casabianca Arte del Pane",lat:43.6905,lon:13.2315,mc:"Borghi",pc:"Alimentare e gastronomia"},
+{n:"Barbieria I.M.G. di Ivano Magi Galluzzi",lat:43.7159,lon:13.2172,mc:"Centro",pc:"Servizi"},
+{n:"Goldengas",lat:43.7315,lon:13.1985,mc:"Industria",pc:"Manifattura"},
+{n:"La Pantofola - Paolo Fabbri",lat:43.7143,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Dueffe",lat:43.7148,lon:13.2173,mc:"Centro",pc:"Commercio"},
+{n:"Ristorante Carmen",lat:43.7144,lon:13.2193,mc:"Centro",pc:"Ristorazione"},
+{n:"La casa del caffe\' Famiglia Gregoretti Cecchettini",lat:43.7149,lon:13.2191,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Lugliaroli frantoio",lat:43.683,lon:13.205,mc:"Borghi",pc:"Alimentare e gastronomia"},
+{n:"Hotel Venezia",lat:43.7198,lon:13.2195,mc:"Hotel",pc:"Turismo"},
+{n:"Casa del Costume",lat:43.7161,lon:13.2193,mc:"Centro",pc:"Commercio"},
+{n:"Veschi officine",lat:43.7051,lon:13.2273,mc:"Industria",pc:"Automotive"},
+{n:"Profumeria Valeri",lat:43.7153,lon:13.2168,mc:"Centro",pc:"Commercio"},
+{n:"Bagni 74 Onda Blu",lat:43.7124,lon:13.2369,mc:"Spiaggia",pc:"Turismo"},
+{n:"Hotel Vienna",lat:43.7119,lon:13.2391,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Dei Galli",lat:43.7178,lon:13.2216,mc:"Hotel",pc:"Turismo"},
+{n:"Fronzi Casalinghi dal 1967",lat:43.7151,lon:13.2187,mc:"Centro",pc:"Commercio"},
+{n:"Pasta Fresca All\'Uovo Di Cancellieri Daniela",lat:43.7142,lon:13.2174,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Palace Hotel",lat:43.7168,lon:13.2158,mc:"Hotel",pc:"Turismo"},
+{n:"Conti Lindo Impianti elettrici",lat:43.7058,lon:13.2306,mc:"Industria",pc:"Artigianato"},
+{n:"Ristorante Freccia Azzurra - Famiglia Bittoni",lat:43.7145,lon:13.2188,mc:"Centro",pc:"Ristorazione"},
+{n:"Belogi Motors",lat:43.7033,lon:13.232,mc:"Industria",pc:"Automotive"},
+{n:"Officina Meccanica Concessionaria",lat:43.7003,lon:13.2307,mc:"Industria",pc:"Automotive"},
+{n:"Bagni Nella 57 dal 1968",lat:43.715,lon:13.2294,mc:"Spiaggia",pc:"Turismo"},
+{n:"Farmacia Domenici Robertucci",lat:43.714,lon:13.221,mc:"Farmacie",pc:"Commercio"},
+{n:"Paolini Anastasio - interni auto",lat:43.7009,lon:13.2337,mc:"Industria",pc:"Automotive"},
+{n:"Angeletti Auto",lat:43.7005,lon:13.2275,mc:"Industria",pc:"Automotive"},
+{n:"Calcestruzzi Senigallia",lat:43.6966,lon:13.2488,mc:"Industria",pc:"Manifattura"},
+{n:"Dolciumi liquori Vinicio di Rettaroli Bruna",lat:43.7144,lon:13.2169,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Albergo Lucia",lat:43.7153,lon:13.2298,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Roma",lat:43.7172,lon:13.2165,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Delfino",lat:43.7106,lon:13.2427,mc:"Hotel",pc:"Turismo"},
+{n:"E.R.T. Di Bizzarri Mirko - tv e elettrodomestici",lat:43.7143,lon:13.2186,mc:"Centro",pc:"Commercio"},
+{n:"Pasticceria San Martino",lat:43.7144,lon:13.2177,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"La bottega degli antichi sapori - Alimentari Spallacci Anna",lat:43.7154,lon:13.2174,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Macelleria Norcineria La Bottega di Nadio Cicetti",lat:43.7146,lon:13.2188,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Hotel International",lat:43.7061,lon:13.2516,mc:"Hotel",pc:"Turismo"},
+{n:"Marinelli M Sport",lat:43.714,lon:13.2171,mc:"Centro",pc:"Commercio"},
+{n:"Enoteca Galli",lat:43.7144,lon:13.2193,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Pasta fresca all\'uovo di M. Cristina Argentati",lat:43.7159,lon:13.2191,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Il Forno Dionigi Senigallia (da Clelia)",lat:43.7147,lon:13.217,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Farmacia Dottori Sbrozzi",lat:43.716,lon:13.2175,mc:"Farmacie",pc:"Commercio"},
+{n:"Frulla Auto",lat:43.705,lon:13.2316,mc:"Industria",pc:"Automotive"},
+{n:"Costantini biancheria per la casa",lat:43.7153,lon:13.2195,mc:"Centro",pc:"Commercio"},
+{n:"Hotel Universal e Bagni 33",lat:43.7195,lon:13.2202,mc:"Hotel",pc:"Turismo"},
+{n:"Meccanica Berluti srl",lat:43.7359,lon:13.1974,mc:"Industria",pc:"Manifattura"},
+{n:"Pasta all\'uovo Arcangeli",lat:43.7154,lon:13.2193,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Carrozzeria Manocchi Franco",lat:43.7008,lon:13.2269,mc:"Industria",pc:"Automotive"},
+{n:"Paolini Lucio e Simone e c. snc",lat:43.7006,lon:13.2304,mc:"Industria",pc:"Artigianato"},
+{n:"Farmacia Paolucci",lat:43.7132,lon:13.2225,mc:"Farmacie",pc:"Commercio"},
+{n:"Bagni 111 Morsucci Matias",lat:43.7068,lon:13.2507,mc:"Spiaggia",pc:"Turismo"},
+{n:"Hotel Metropol",lat:43.716,lon:13.2273,mc:"Hotel",pc:"Turismo"},
+{n:"Camping Summerland",lat:43.7015,lon:13.2555,mc:"Hotel",pc:"Turismo"},
+{n:"Hotel Gabbiano e stabilimento balneare",lat:43.7084,lon:13.2487,mc:"Hotel",pc:"Turismo"},
+{n:"Falegnameria G.M. di Gerini Giuseppe",lat:43.7025,lon:13.2282,mc:"Industria",pc:"Artigianato"},
+{n:"Ori Alimentari",lat:43.6815,lon:13.2105,mc:"Borghi",pc:"Alimentare e gastronomia"},
+{n:"Nicolini gioielli",lat:43.7148,lon:13.2177,mc:"Centro",pc:"Commercio"},
+{n:"Hotel e stabilimento balneare Magestic - famiglia Federiconi",lat:43.707,lon:13.2506,mc:"Hotel",pc:"Turismo"},
+{n:"3M Parrucchieria lui e lei di Mancini",lat:43.7148,lon:13.2165,mc:"Centro",pc:"Servizi"},
+{n:"Mirella Pelletterie",lat:43.7149,lon:13.2179,mc:"Centro",pc:"Commercio"},
+{n:"Merceria Curtatoni Vanda",lat:43.716,lon:13.2181,mc:"Centro",pc:"Commercio"},
+{n:"Lucarelli srl Impiantistica Civile e Industriale",lat:43.698,lon:13.2478,mc:"Industria",pc:"Artigianato"},
+{n:"Bocconi Arredamenti",lat:43.7142,lon:13.2169,mc:"Centro",pc:"Commercio"},
+{n:"Foto Gaep di Pegoli",lat:43.7145,lon:13.2192,mc:"Centro",pc:"Servizi"},
+{n:"Citroen Sabbatinelli",lat:43.7048,lon:13.2329,mc:"Industria",pc:"Automotive"},
+{n:"BMW Cappello Antonio",lat:43.7054,lon:13.2277,mc:"Industria",pc:"Automotive"},
+{n:"Termoidraulica Del Giudice",lat:43.7015,lon:13.2268,mc:"Industria",pc:"Artigianato"},
+{n:"Pretini Ivano srl Ristrutturazioni edili Tinteggiature",lat:43.7047,lon:13.2331,mc:"Industria",pc:"Artigianato"},
+{n:"Tutta Musica di Rossana Sogno",lat:43.7148,lon:13.2184,mc:"Centro",pc:"Commercio"},
+{n:"Mega\' Dance",lat:43.7065,lon:13.2302,mc:"Centro",pc:"Servizi"},
+{n:"COMES srl",lat:43.6982,lon:13.2518,mc:"Industria",pc:"Manifattura"},
+{n:"Paolo Santini impianti srl",lat:43.7049,lon:13.2331,mc:"Industria",pc:"Artigianato"},
+{n:"Costruzioni Stano",lat:43.7001,lon:13.2319,mc:"Industria",pc:"Artigianato"},
+{n:"Edra costruzioni",lat:43.702,lon:13.2334,mc:"Industria",pc:"Artigianato"},
+{n:"Molino f.lli Mariani",lat:43.7358,lon:13.2019,mc:"Industria",pc:"Alimentare e gastronomia"},
+{n:"Mini Gran Prix di Abbruciati Paolo e famiglia",lat:43.708,lon:13.2485,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni Licia",lat:43.7094,lon:13.2457,mc:"Spiaggia",pc:"Turismo"},
+{n:"Pettinari orafo",lat:43.7156,lon:13.2167,mc:"Centro",pc:"Commercio"},
+{n:"Centro copie Paladini",lat:43.7159,lon:13.2191,mc:"Centro",pc:"Servizi"},
+{n:"Bagni 78 Cadelano Giampiero",lat:43.7117,lon:13.2391,mc:"Spiaggia",pc:"Turismo"},
+{n:"Hotel Patrizia",lat:43.7125,lon:13.2382,mc:"Hotel",pc:"Turismo"},
+{n:"Giuseppe Cucchi Oreficeria Orologeria",lat:43.7148,lon:13.2168,mc:"Centro",pc:"Commercio"},
+{n:"Corderia Larc Lavorazione artigianale reti e corde",lat:43.695,lon:13.2506,mc:"Industria",pc:"Manifattura"},
+{n:"Bagni 118 Manservigi Carla",lat:43.706,lon:13.2522,mc:"Spiaggia",pc:"Turismo"},
+{n:"Michele Ercole Pizzaiolo",lat:43.7153,lon:13.2177,mc:"Centro",pc:"Ristorazione"},
+{n:"Boutique Ribot",lat:43.7158,lon:13.2174,mc:"Centro",pc:"Commercio"},
+{n:"Impresa Brugiatelli",lat:43.7056,lon:13.2269,mc:"Industria",pc:"Artigianato"},
+{n:"Claudio Moroni Agente Assicurativo",lat:43.7161,lon:13.217,mc:"Centro",pc:"Servizi"},
+{n:"Giuliana Tomassoni Foto Art Eliotecnica",lat:43.7161,lon:13.2173,mc:"Centro",pc:"Servizi"},
+{n:"Challenger Sails Yachting",lat:43.7188,lon:13.2205,mc:"Spiaggia",pc:"Turismo"},
+{n:"Oreficeria Bassotti e Caporaletti",lat:43.7141,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Famiglia Tassi Argentina",lat:43.7155,lon:13.2174,mc:"Centro",pc:"Commercio"},
+{n:"Clementi falegname",lat:43.7036,lon:13.2301,mc:"Industria",pc:"Artigianato"},
+{n:"Franceschini Roberto Carrozzeria",lat:43.7023,lon:13.2306,mc:"Industria",pc:"Automotive"},
+{n:"F.lli Serritelli Rocco e Antonio frutta e verdura",lat:43.7144,lon:13.2186,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Quadraroli Giorgio Consulente assicurativo",lat:43.7138,lon:13.2193,mc:"Centro",pc:"Servizi"},
+{n:"Assicurazioni e investimenti Dario Mancini",lat:43.7151,lon:13.2187,mc:"Centro",pc:"Servizi"},
+{n:"Green Camping",lat:43.701,lon:13.256,mc:"Hotel",pc:"Turismo"},
+{n:"Rocmar Srl imballaggi contenitori metallici",lat:43.6975,lon:13.2487,mc:"Industria",pc:"Manifattura"},
+{n:"Bagni Nella 49 di Barucca Nella",lat:43.7163,lon:13.2248,mc:"Spiaggia",pc:"Turismo"},
+{n:"Sayonara",lat:43.7154,lon:13.2175,mc:"Centro",pc:"Commercio"},
+{n:"Le Querce",lat:43.682,lon:13.208,mc:"Borghi",pc:"Ristorazione"},
+{n:"Ristorante da Ciccio",lat:43.7146,lon:13.219,mc:"Centro",pc:"Ristorazione"},
+{n:"Lavanderia ALBA di Urbinelli Andrea",lat:43.7155,lon:13.2174,mc:"Centro",pc:"Servizi"},
+{n:"Azienda Agricola Cursi Oscar",lat:43.678,lon:13.195,mc:"Borghi",pc:"Agricoltura"},
+{n:"Meris materiale elettrico",lat:43.7019,lon:13.2293,mc:"Industria",pc:"Commercio"},
+{n:"Pasticceria Iannello",lat:43.7148,lon:13.2174,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Angolo del Duca - Corniceria e Belle Arti",lat:43.7141,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Delta costruzioni",lat:43.6986,lon:13.2488,mc:"Industria",pc:"Artigianato"},
+{n:"Agostinelli Autospurghi",lat:43.6984,lon:13.2482,mc:"Industria",pc:"Servizi"},
+{n:"Cicli Marocchi",lat:43.7145,lon:13.2181,mc:"Centro",pc:"Commercio"},
+{n:"Residence Mare Verde",lat:43.7052,lon:13.2526,mc:"Hotel",pc:"Turismo"},
+{n:"Due G. Moto srl",lat:43.7115,lon:13.2246,mc:"Centro",pc:"Automotive"},
+{n:"Pozzo dei Desideri",lat:43.7149,lon:13.2171,mc:"Centro",pc:"Commercio"},
+{n:"Il Cappello",lat:43.7149,lon:13.2192,mc:"Centro",pc:"Commercio"},
+{n:"Bagni Vittoria",lat:43.7109,lon:13.2417,mc:"Spiaggia",pc:"Turismo"},
+{n:"SPOGA Arredamenti",lat:43.714,lon:13.218,mc:"Centro",pc:"Commercio"},
+{n:"Hotel Sole e stabilimento",lat:43.7039,lon:13.255,mc:"Hotel",pc:"Turismo"},
+{n:"Rosi Ivaldo Tappezzeria",lat:43.704,lon:13.2278,mc:"Industria",pc:"Artigianato"},
+{n:"Farmacia Avitabile",lat:43.7135,lon:13.2195,mc:"Farmacie",pc:"Commercio"},
+{n:"Lagostekne",lat:43.6942,lon:13.2422,mc:"Industria",pc:"Manifattura"},
+{n:"Sadori Gas ora Sadori Reti",lat:43.6945,lon:13.2468,mc:"Industria",pc:"Servizi"},
+{n:"Baretto Rosso",lat:43.7158,lon:13.2167,mc:"Centro",pc:"Ristorazione"},
+{n:"Pesaresi Alessandro e C. sas",lat:43.7025,lon:13.231,mc:"Industria",pc:"Servizi"},
+{n:"Vetreria Misa",lat:43.7012,lon:13.2316,mc:"Industria",pc:"Artigianato"},
+{n:"Spadoni Mauro servizi tecnici",lat:43.703,lon:13.228,mc:"Industria",pc:"Servizi"},
+{n:"Pacenti Nevio - ricambi elettrodomestici",lat:43.7154,lon:13.2165,mc:"Centro",pc:"Commercio"},
+{n:"La fiera di Sinigaglia - Galleria Antiquaria",lat:43.7155,lon:13.2165,mc:"Centro",pc:"Commercio"},
+{n:"Vinicio Pirani - ambulante",lat:43.7154,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Bagni Sandra",lat:43.7086,lon:13.248,mc:"Spiaggia",pc:"Turismo"},
+{n:"C.I.D.I. Computer",lat:43.7141,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Pasticceria Sestilio",lat:43.7142,lon:13.2194,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Da Paola fiori e piante",lat:43.715,lon:13.2167,mc:"Centro",pc:"Commercio"},
+{n:"Ciabatteria Mencaroni",lat:43.7144,lon:13.219,mc:"Centro",pc:"Artigianato"},
+{n:"Lavanderia La Senigalliese",lat:43.7149,lon:13.2189,mc:"Centro",pc:"Servizi"},
+{n:"Sorelle Sebastianelli",lat:43.7154,lon:13.2195,mc:"Centro",pc:"Commercio"},
+{n:"Libreria Sapere Ubik",lat:43.7152,lon:13.2172,mc:"Centro",pc:"Commercio"},
+{n:"Cesare Baldiserri Assi-France srl",lat:43.7152,lon:13.2194,mc:"Centro",pc:"Servizi"},
+{n:"Bar Penna DI Vecchi Bruno e Maurizio",lat:43.7159,lon:13.2183,mc:"Centro",pc:"Ristorazione"},
+{n:"Panificio Pasticceria gastronomia Minardi",lat:43.7155,lon:13.218,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Bagni 45 Turner Berta Isabella",lat:43.7171,lon:13.2229,mc:"Spiaggia",pc:"Turismo"},
+{n:"Timone Yachts - Luigi Gambelli",lat:43.7185,lon:13.2198,mc:"Spiaggia",pc:"Turismo"},
+{n:"Canton art di Daniela",lat:43.716,lon:13.2187,mc:"Centro",pc:"Commercio"},
+{n:"Andrea Alfonsi - impianti elettrici",lat:43.7028,lon:13.2281,mc:"Industria",pc:"Artigianato"},
+{n:"Bonvini Elettrogalvanica",lat:43.6945,lon:13.2484,mc:"Industria",pc:"Manifattura"},
+{n:"Eurogas",lat:43.7356,lon:13.1992,mc:"Industria",pc:"Servizi"},
+{n:"Fabiano Pierfederici Agente Assicurativo",lat:43.7153,lon:13.2173,mc:"Centro",pc:"Servizi"},
+{n:"Cesare Baldiserri Assi-France srl (2)",lat:43.714,lon:13.2174,mc:"Centro",pc:"Servizi"},
+{n:"Bagni Clipper 144 Albonetti Danilo e Daniele",lat:43.7025,lon:13.2566,mc:"Spiaggia",pc:"Turismo"},
+{n:"Famiglia Morsucci hotel Mareblu",lat:43.7074,lon:13.2492,mc:"Hotel",pc:"Turismo"},
+{n:"Sabra",lat:43.7155,lon:13.2167,mc:"Centro",pc:"Commercio"},
+{n:"Blu Bar F.lli Quattrini",lat:43.7148,lon:13.2181,mc:"Centro",pc:"Ristorazione"},
+{n:"Bar Azzurro 85 Bastianoni",lat:43.7107,lon:13.2417,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Carrozzeria la Moderna - Ruggeri e Durazzi",lat:43.7025,lon:13.2332,mc:"Industria",pc:"Automotive"},
+{n:"Le Fiandre",lat:43.7152,lon:13.2186,mc:"Centro",pc:"Commercio"},
+{n:"Parrucchieria Francesca",lat:43.7159,lon:13.2188,mc:"Centro",pc:"Servizi"},
+{n:"La Lama di Arsendi Paul",lat:43.7147,lon:13.2165,mc:"Centro",pc:"Artigianato"},
+{n:"Nevio Arcangeli fotografo",lat:43.7146,lon:13.2188,mc:"Centro",pc:"Servizi"},
+{n:"Club Motori d\'Epoca Senigallia",lat:43.7135,lon:13.2304,mc:"Centro",pc:"Servizi"},
+{n:"Bracci Giovanni - ambulante",lat:43.7154,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Hotel Olympia e stabilimento",lat:43.7049,lon:13.2537,mc:"Hotel",pc:"Turismo"},
+{n:"Ferramenta Fer-Color",lat:43.7143,lon:13.2172,mc:"Centro",pc:"Commercio"},
+{n:"Massimo Pedulla\'",lat:43.7148,lon:13.2166,mc:"Centro",pc:"Servizi"},
+{n:"Pizzeria del Portico",lat:43.7148,lon:13.218,mc:"Centro",pc:"Ristorazione"},
+{n:"Tricot filati di Abbrugiati Paola",lat:43.7146,lon:13.2185,mc:"Centro",pc:"Commercio"},
+{n:"Bagni Irma",lat:43.713,lon:13.2352,mc:"Spiaggia",pc:"Turismo"},
+{n:"La Collana",lat:43.7149,lon:13.2169,mc:"Centro",pc:"Commercio"},
+{n:"La Senigalliese",lat:43.6967,lon:13.2423,mc:"Industria",pc:"Manifattura"},
+{n:"Canestrari Carla Calzature",lat:43.7147,lon:13.2182,mc:"Centro",pc:"Commercio"},
+{n:"Paolo Manoni - Caffe\' Portici",lat:43.7153,lon:13.2168,mc:"Centro",pc:"Ristorazione"},
+{n:"Honky",lat:43.7139,lon:13.2184,mc:"Centro",pc:"Commercio"},
+{n:"Pizzeria Sloppy Joe",lat:43.7141,lon:13.2179,mc:"Centro",pc:"Ristorazione"},
+{n:"Autofficina Elettrauto Belardinelli e Testaguzza",lat:43.7003,lon:13.229,mc:"Industria",pc:"Automotive"},
+{n:"Romitelli Macchine Utensili",lat:43.6943,lon:13.2453,mc:"Industria",pc:"Manifattura"},
+{n:"Distributore IP di Ferretti",lat:43.7126,lon:13.2235,mc:"Centro",pc:"Automotive"},
+{n:"Hotel Senigallia",lat:43.715,lon:13.2304,mc:"Hotel",pc:"Turismo"},
+{n:"Caffe\' Doria",lat:43.7152,lon:13.2175,mc:"Centro",pc:"Ristorazione"},
+{n:"Lavanderia Cavalletti",lat:43.7138,lon:13.2181,mc:"Centro",pc:"Servizi"},
+{n:"Profumeria estetica Doriana",lat:43.7162,lon:13.2175,mc:"Centro",pc:"Commercio"},
+{n:"La Fenice Enoteca",lat:43.7154,lon:13.2188,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Ristorante La Pagaia",lat:43.7175,lon:13.222,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Hotel Rex",lat:43.7174,lon:13.224,mc:"Hotel",pc:"Turismo"},
+{n:"Bagni 44",lat:43.717,lon:13.2225,mc:"Spiaggia",pc:"Turismo"},
+{n:"Club Viaggi",lat:43.7141,lon:13.2185,mc:"Centro",pc:"Servizi"},
+{n:"Tiriboco cucine industriali",lat:43.6964,lon:13.2442,mc:"Industria",pc:"Manifattura"},
+{n:"Il Portoncino",lat:43.7155,lon:13.2188,mc:"Centro",pc:"Ristorazione"},
+{n:"Chiosco Surya di Massimo Coppari",lat:43.7099,lon:13.2439,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Termoidraulica T.S. di Goldoni Stefano",lat:43.7045,lon:13.2269,mc:"Industria",pc:"Artigianato"},
+{n:"Bar Paola",lat:43.7158,lon:13.2194,mc:"Centro",pc:"Ristorazione"},
+{n:"Da Ninin pescheria",lat:43.7155,lon:13.218,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Andrea Ippoliti - Studio d\'arte e restauro",lat:43.7141,lon:13.2166,mc:"Centro",pc:"Servizi"},
+{n:"Ottica 2000",lat:43.7145,lon:13.2185,mc:"Centro",pc:"Commercio"},
+{n:"Barbieria Francesco",lat:43.7161,lon:13.2177,mc:"Centro",pc:"Servizi"},
+{n:"Elettrauto Mandolini e Agnoletti",lat:43.7043,lon:13.2266,mc:"Industria",pc:"Automotive"},
+{n:"Lucarreda arredamenti",lat:43.7155,lon:13.2184,mc:"Centro",pc:"Commercio"},
+{n:"Schizzo Bar",lat:43.714,lon:13.2188,mc:"Centro",pc:"Ristorazione"},
+{n:"Bagni 133 Renato",lat:43.7041,lon:13.255,mc:"Spiaggia",pc:"Turismo"},
+{n:"Brocchini Sabrina Parrucchiera",lat:43.7141,lon:13.2195,mc:"Centro",pc:"Servizi"},
+{n:"Carrozzeria 91",lat:43.7047,lon:13.2288,mc:"Industria",pc:"Automotive"},
+{n:"Ninna Nanna per il bebe\'",lat:43.7148,lon:13.2176,mc:"Centro",pc:"Commercio"},
+{n:"Group srl",lat:43.696,lon:13.2454,mc:"Industria",pc:"Servizi"},
+{n:"Bagni 63",lat:43.7142,lon:13.2324,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni Cristina",lat:43.7131,lon:13.2347,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni Virgilio",lat:43.7128,lon:13.2364,mc:"Spiaggia",pc:"Turismo"},
+{n:"Ottica Galdenzi",lat:43.7155,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"SIREC SpA Societa\' Italiana Produzione Reti e Corde",lat:43.6974,lon:13.2517,mc:"Industria",pc:"Manifattura"},
+{n:"Bagni Carlini",lat:43.7077,lon:13.2493,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni 122 Santolini Paola",lat:43.7053,lon:13.2532,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni 115 Turchi Gabriele",lat:43.7062,lon:13.2517,mc:"Spiaggia",pc:"Turismo"},
+{n:"DO.MO. vending srl",lat:43.7016,lon:13.2328,mc:"Industria",pc:"Servizi"},
+{n:"Hotel Atlantic",lat:43.7063,lon:13.2519,mc:"Hotel",pc:"Turismo"},
+{n:"Bagus",lat:43.7149,lon:13.2183,mc:"Centro",pc:"Ristorazione"},
+{n:"Albergo Primavera",lat:43.7207,lon:13.219,mc:"Hotel",pc:"Turismo"},
+{n:"Bagni 60 Bplaya",lat:43.7144,lon:13.231,mc:"Spiaggia",pc:"Turismo"},
+{n:"New Bar di Pettinato Giuseppa",lat:43.7146,lon:13.2191,mc:"Centro",pc:"Ristorazione"},
+{n:"Pizzeria Ristorante Il Saladino",lat:43.7155,lon:13.2173,mc:"Centro",pc:"Ristorazione"},
+{n:"Mercerie intimo di Bolognini Anna Maria",lat:43.7138,lon:13.2193,mc:"Centro",pc:"Commercio"},
+{n:"Conchiglia",lat:43.711,lon:13.2408,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Argentina",lat:43.715,lon:13.2188,mc:"Centro",pc:"Commercio"},
+{n:"Indiana Jeans",lat:43.7155,lon:13.2184,mc:"Centro",pc:"Commercio"},
+{n:"Ricciotti Massimiliano salumi e formaggi",lat:43.715,lon:13.2189,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Sergio Francesconi Food and Beverage",lat:43.714,lon:13.2172,mc:"Centro",pc:"Ristorazione"},
+{n:"Des Amis",lat:43.7155,lon:13.2174,mc:"Centro",pc:"Ristorazione"},
+{n:"Cuoco di Bordo",lat:43.716,lon:13.216,mc:"Centro",pc:"Ristorazione"},
+{n:"Lido 82",lat:43.7112,lon:13.2406,mc:"Spiaggia",pc:"Turismo"},
+{n:"Severini Costruzioni Srl",lat:43.6962,lon:13.2463,mc:"Industria",pc:"Artigianato"},
+{n:"Vitur Viaggi srl",lat:43.7156,lon:13.2175,mc:"Centro",pc:"Servizi"},
+{n:"Villaggio Benvivere (2)",lat:43.702,lon:13.2545,mc:"Hotel",pc:"Turismo"},
+{n:"Bar Pizzeria Rikki Tikki Tavi",lat:43.7155,lon:13.2173,mc:"Centro",pc:"Ristorazione"},
+{n:"Mencarelli macelleria norcineria",lat:43.7144,lon:13.2169,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Marinari materiale elettrico",lat:43.7012,lon:13.227,mc:"Industria",pc:"Commercio"},
+{n:"Spadoni Santinelli Claudio Impresa Edile",lat:43.7032,lon:13.2321,mc:"Industria",pc:"Artigianato"},
+{n:"Fuligna Claudio impresa edile",lat:43.7011,lon:13.2277,mc:"Industria",pc:"Artigianato"},
+{n:"Casagrande Esposto Lorenzo Rivestimenti",lat:43.7029,lon:13.2318,mc:"Industria",pc:"Artigianato"},
+{n:"Bigi Stefano Impresa Edile",lat:43.7059,lon:13.2302,mc:"Industria",pc:"Artigianato"},
+{n:"Sperandini bibite",lat:43.7017,lon:13.2268,mc:"Industria",pc:"Alimentare e gastronomia"},
+{n:"Vici Sergio Autotrasporti - All service srl",lat:43.6942,lon:13.2443,mc:"Industria",pc:"Servizi"},
+{n:"Pasquini Tappezzeria Tendaggi",lat:43.7142,lon:13.2165,mc:"Centro",pc:"Artigianato"},
+{n:"Edicola Tabaccheria Gastreghini",lat:43.7151,lon:13.2173,mc:"Centro",pc:"Commercio"},
+{n:"Futura Tinteggiatori",lat:43.7058,lon:13.2304,mc:"Industria",pc:"Artigianato"},
+{n:"AN.SI. Service",lat:43.7042,lon:13.227,mc:"Industria",pc:"Servizi"},
+{n:"La Prima ferramenta",lat:43.7159,lon:13.218,mc:"Centro",pc:"Commercio"},
+{n:"Iacussi Gastone impianti elettrici",lat:43.7052,lon:13.2306,mc:"Industria",pc:"Artigianato"},
+{n:"Isola del fiore",lat:43.7149,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"TMS Termoidraulica",lat:43.7011,lon:13.2264,mc:"Industria",pc:"Artigianato"},
+{n:"Azienda agricola Mazzola",lat:43.687,lon:13.2,mc:"Borghi",pc:"Agricoltura"},
+{n:"City Pub",lat:43.7161,lon:13.2179,mc:"Centro",pc:"Ristorazione"},
+{n:"La Ghigliottina",lat:43.7158,lon:13.2177,mc:"Centro",pc:"Ristorazione"},
+{n:"Rosticceria il Pescatore",lat:43.714,lon:13.2184,mc:"Centro",pc:"Alimentare e gastronomia"},
+{n:"Bagni Mille Bolle Blu",lat:43.7013,lon:13.2583,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bagni 167/168 Albonetti Silvana",lat:43.7003,lon:13.2603,mc:"Spiaggia",pc:"Turismo"},
+{n:"Termoidraulica H2O",lat:43.706,lon:13.2269,mc:"Industria",pc:"Artigianato"},
+{n:"Famiglia Zoppini Hotel Sirena",lat:43.717,lon:13.2249,mc:"Hotel",pc:"Turismo"},
+{n:"Casabianca Automazioni",lat:43.6895,lon:13.2325,mc:"Borghi",pc:"Manifattura"},
+{n:"Casabianca automazione (2)",lat:43.6892,lon:13.2328,mc:"Borghi",pc:"Manifattura"},
+{n:"Camping Cortina",lat:43.7005,lon:13.255,mc:"Hotel",pc:"Turismo"},
+{n:"Namirial SpA",lat:43.7025,lon:13.2285,mc:"Industria",pc:"Servizi"},
+{n:"Tabaccheria del Corso di Morbidelli Michele",lat:43.715,lon:13.2175,mc:"Centro",pc:"Commercio"},
+{n:"Corallo",lat:43.7088,lon:13.247,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Ristorante Pizzeria Luna Rossa",lat:43.7149,lon:13.2191,mc:"Centro",pc:"Ristorazione"},
+{n:"Birreria Lady Hamilton",lat:43.7162,lon:13.2174,mc:"Centro",pc:"Ristorazione"},
+{n:"Pizzeus Ristorante Pizzeria",lat:43.7153,lon:13.2183,mc:"Centro",pc:"Ristorazione"},
+{n:"Band Arbitri Elegantiae",lat:43.7156,lon:13.2193,mc:"Centro",pc:"Servizi"},
+{n:"Hotel City",lat:43.7142,lon:13.2198,mc:"Hotel",pc:"Turismo"},
+{n:"Verde mare Country House",lat:43.686,lon:13.215,mc:"Borghi",pc:"Turismo"},
+{n:"Il Tesoro dei Pirati Ristorante Talal",lat:43.7143,lon:13.2171,mc:"Centro",pc:"Ristorazione"},
+{n:"Il Chioschetto",lat:43.7154,lon:13.228,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Vivere Senigallia",lat:43.7154,lon:13.2178,mc:"Centro",pc:"Servizi"},
+{n:"OEB Srl componenti per altoparlanti",lat:43.694,lon:13.2428,mc:"Industria",pc:"Manifattura"},
+{n:"Bagni 107",lat:43.7073,lon:13.2496,mc:"Spiaggia",pc:"Turismo"},
+{n:"Tabaccheria Adriatica Chiodi Rita",lat:43.7152,lon:13.2174,mc:"Centro",pc:"Commercio"},
+{n:"Moschus boutique",lat:43.715,lon:13.2176,mc:"Centro",pc:"Commercio"},
+{n:"Ristorante da Carlo",lat:43.7155,lon:13.2179,mc:"Centro",pc:"Ristorazione"},
+{n:"Pochito Mas",lat:43.7154,lon:13.2193,mc:"Centro",pc:"Ristorazione"},
+{n:"Parrucchiera Sabrina",lat:43.7157,lon:13.2184,mc:"Centro",pc:"Servizi"},
+{n:"Bagni 159 Manocchi Mara",lat:43.7012,lon:13.2593,mc:"Spiaggia",pc:"Turismo"},
+{n:"Bar Mosquito dal 2000",lat:43.701,lon:13.2593,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Pizzeria Mezzometro",lat:43.7105,lon:13.244,mc:"Spiaggia",pc:"Ristorazione"},
+{n:"Paolini distributore Metano",lat:43.7115,lon:13.2299,mc:"Industria",pc:"Automotive"},
+{n:"Ceramica La Torre di Morena Pesaresi",lat:43.7158,lon:13.2167,mc:"Centro",pc:"Artigianato"},
+{n:"Ristorante Rimante di Cesare De Rocco",lat:43.7142,lon:13.2174,mc:"Centro",pc:"Ristorazione"},
+{n:"Bagni 14 Village Caffe\'",lat:43.7229,lon:13.2184,mc:"Spiaggia",pc:"Turismo"},
+{n:"Lato sud",lat:43.7145,lon:13.2169,mc:"Centro",pc:"Ristorazione"},
+{n:"Bagni Atollo Abbrugiati e Angeletti Andrea",lat:43.7044,lon:13.2545,mc:"Spiaggia",pc:"Turismo"},
+{n:"Autofficina Piangerelli Francesco",lat:43.7057,lon:13.23,mc:"Industria",pc:"Automotive"},
+{n:"CO.ME.TA.T. Coppe Targhe e Timbrificio",lat:43.715,lon:13.2167,mc:"Centro",pc:"Servizi"},
+{n:"Terrazza Marconi",lat:43.7183,lon:13.2215,mc:"Hotel",pc:"Turismo"},
+{n:"Le due ruote Bike Store",lat:43.7139,lon:13.2178,mc:"Centro",pc:"Commercio"},
+{n:"Maglieria Nella",lat:43.7146,lon:13.2173,mc:"Centro",pc:"Commercio"},
+{n:"Forno di Sant\'Angelo Panificio Cesarini e Lanfredini",lat:43.6812,lon:13.2108,mc:"Borghi",pc:"Alimentare e gastronomia"}
+];
+
+/* =============================================
+   DA QUI IN POI: LOGICA PURA, NON TOCCARE
+   ============================================= */
+var T=P.length;
+var pct={};P.forEach(function(d){pct[d.pc]=(pct[d.pc]||0)+1});
+var psc=Object.entries(pct).sort(function(a,b){return b[1]-a[1]});
+var pmx=psc[0]?psc[0][1]:1;
+var mct={};P.forEach(function(d){mct[d.mc]=(mct[d.mc]||0)+1});
+var msc=Object.entries(mct).sort(function(a,b){return b[1]-a[1]});
+(function(){
+var svg=document.getElementById("pie");var pieTip=document.getElementById("pieTip");
+var cx=210,cy=150,R=110,r=68,LR=125;var total=T,ang=-Math.PI/2;var labels=[];
+psc.forEach(function(e){
+var cat=e[0],n=e[1],co=PC[cat]||"#999";var pctV=Math.round(n/total*100);var slice=n/total*Math.PI*2;
+var x1=cx+R*Math.cos(ang),y1=cy+R*Math.sin(ang);var x2=cx+R*Math.cos(ang+slice),y2=cy+R*Math.sin(ang+slice);
+var ix1=cx+r*Math.cos(ang+slice),iy1=cy+r*Math.sin(ang+slice);var ix2=cx+r*Math.cos(ang),iy2=cy+r*Math.sin(ang);
+var large=slice>Math.PI?1:0;
+var d="M"+x1+","+y1+" A"+R+","+R+" 0 "+large+" 1 "+x2+","+y2+" L"+ix1+","+iy1+" A"+r+","+r+" 0 "+large+" 0 "+ix2+","+iy2+" Z";
+var p=document.createElementNS("http://www.w3.org/2000/svg","path");
+p.setAttribute("d",d);p.setAttribute("fill",co);p.setAttribute("opacity","0.85");p.setAttribute("style","cursor:pointer;transition:all .15s");
+var catRef=cat,nRef=n,pctRef=pctV,coRef=co,refPR=PR[cat]||"";
+p.onmouseover=function(ev){this.setAttribute("opacity","1");this.setAttribute("transform","scale(1.03)");this.setAttribute("transform-origin",cx+"px "+cy+"px");pieTip.style.display="block";pieTip.innerHTML='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="width:12px;height:12px;border-radius:50%;background:'+coRef+';flex-shrink:0"></span><span style="font-size:14px;font-weight:700;color:'+coRef+'">'+catRef+'</span></div><div style="font-size:22px;font-weight:700;color:#1e293b">'+nRef+' <span style="font-size:13px;font-weight:500;color:#94a3b8">('+pctRef+'%)</span></div>'+(refPR&&refPR!=="\u2014"?'<div style="font-size:11px;color:#94a3b8;margin-top:4px">\u2192 Programma: '+refPR+'</div>':'')};
+p.onmousemove=function(ev){var rect=svg.closest(".pie-wrap").getBoundingClientRect();pieTip.style.left=(ev.clientX-rect.left+14)+"px";pieTip.style.top=(ev.clientY-rect.top-10)+"px"};
+p.onmouseout=function(){this.setAttribute("opacity","0.85");this.removeAttribute("transform");pieTip.style.display="none"};
+svg.appendChild(p);
+var midAng=ang+slice/2;var lx=cx+LR*Math.cos(midAng);var ly=cy+LR*Math.sin(midAng);var isRight=Math.cos(midAng)>0;var endX=isRight?lx+22:lx-22;
+labels.push({cat:cat,pct:pctV,co:co,lx:lx,ly:ly,endX:endX,isRight:isRight});ang+=slice;});
+labels.forEach(function(lb){if(lb.pct<3)return;
+var line=document.createElementNS("http://www.w3.org/2000/svg","line");line.setAttribute("x1",lb.lx);line.setAttribute("y1",lb.ly);line.setAttribute("x2",lb.endX);line.setAttribute("y2",lb.ly);line.setAttribute("stroke",lb.co);line.setAttribute("stroke-width",1);line.setAttribute("opacity","0.5");svg.appendChild(line);
+var txt=document.createElementNS("http://www.w3.org/2000/svg","text");txt.setAttribute("x",lb.isRight?lb.endX+4:lb.endX-4);txt.setAttribute("y",lb.ly+1);txt.setAttribute("text-anchor",lb.isRight?"start":"end");txt.setAttribute("dominant-baseline","middle");txt.setAttribute("font-family","Poppins,sans-serif");txt.setAttribute("font-size","10");txt.setAttribute("font-weight","600");txt.setAttribute("fill",lb.co);txt.textContent=lb.pct+"% "+lb.cat;svg.appendChild(txt);});
+})();
+var cH="";psc.forEach(function(e){var cat=e[0],n=e[1],co=PC[cat]||"#95a5a6",ref=PR[cat]||"";var its=P.filter(function(d){return d.pc===cat}).map(function(d){return "<div style='break-inside:avoid'>\u2022 "+d.n+"</div>"}).join("");var refHtml=ref&&ref!=="\u2014"?' <span class="cref">\u2192 Programma: '+ref+'</span>':"";cH+='<div class="cr" onclick="tc(this)"><div class="ch"><span class="dot" style="background:'+co+'"></span><span class="cn">'+cat+refHtml+'</span><span class="cc" style="color:'+co+'">'+n+'</span></div><div class="bb"><div class="bf" style="width:'+(n/pmx*100)+'%;background:linear-gradient(90deg,'+co+','+co+'aa)"></div></div><div class="dt" style="column-count:'+(n>12?2:1)+'">'+its+'</div></div>'});document.getElementById("cats").innerHTML=cH;
+document.getElementById("miss").innerHTML='<h3>Nel nostro programma, assenti dalle pergamene di Olivetti</h3><div style="font-size:13px;color:#94a3b8;margin-bottom:14px">Settori su cui la coalizione punta e che l\u2019iniziativa ignora completamente</div>'+[{i:"\u267b\ufe0f",n:"Economia circolare e green economy",r:"Economia circolare, sostegno a start-up",c:"#3AA335"},{i:"\ud83d\ude80",n:"Start-up e nuove imprese (< 20 anni)",r:"Sostegno a start-up, Educazione al lavoro giovani",c:"#8e44ad"},{i:"\ud83e\udd1d",n:"Terzo settore e cooperazione sociale",r:"Economia sociale, Terzo settore",c:"#E8731A"},{i:"\ud83d\udcbb",n:"Digitale e innovazione tecnologica",r:"Transizione digitale, Intelligenza Artificiale",c:"#0097C7"},{i:"\ud83c\udfad",n:"Cultura e creativit\u00e0",r:"Identit\u00e0 culturale, Spazi aggregativi",c:"#D32030"}].map(function(m){return '<div class="miss-i" style="border:1px solid '+m.c+'18"><span style="font-size:22px">'+m.i+'</span><div style="flex:1"><div style="font-size:14px;font-weight:600;color:'+m.c+'">'+m.n+'</div><div style="font-size:12px;color:#94a3b8;margin-top:2px">\ud83d\udccb '+m.r+'</div></div><div style="font-size:22px;font-weight:700;color:#ef444488">0</div></div>'}).join("")+'<p style="font-size:14px;color:#475569;line-height:1.6;margin:14px 0 0;font-style:italic">Il criterio dei 20 anni di attivit\u00e0 esclude per definizione le imprese innovative. Le pergamene fotografano il passato, il nostro programma guarda al futuro.</p>';
+var cpH='<button class="chip on" style="border-color:'+A+';color:'+A+';font-weight:600" onclick="fm(null,this)"><span class="cdot" style="background:'+A+'"></span>Tutte ('+T+')</button>';msc.forEach(function(e){var cat=e[0],n=e[1],c=MC[cat]||"#95a5a6";cpH+="<button class=\"chip\" onclick=\"fm('"+cat.replace(/'/g,"\\'")+"',this)\"><span class=\"cdot\" style=\"background:"+c+"\"></span>"+cat+" ("+n+")</button>"});document.getElementById("chips").innerHTML=cpH;
+function sw(v){document.getElementById("vmap").className=v==="map"?"":"hid";document.getElementById("vdash").className=v==="dash"?"":"hid";var ts=document.querySelectorAll(".tab");ts[0].className="tab"+(v==="map"?" on":"");ts[1].className="tab"+(v==="dash"?" on":"");if(v==="map"&&!window._mi)im()}
+function tc(el){var d=el.querySelector(".dt");d.style.display=d.style.display==="block"?"none":"block"}
+function tm(){var b=document.getElementById("mb"),a=document.getElementById("ma");if(b.style.display==="block"){b.style.display="none";a.style.transform="rotate(0deg)"}else{b.style.display="block";a.style.transform="rotate(90deg)"}}
+var searchIn=document.getElementById("searchIn");var searchDrop=document.getElementById("searchDrop");
+function normalize(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function fuzzyMatch(query,target){var q=normalize(query),t=normalize(target);if(t.indexOf(q)!==-1)return{score:t.indexOf(q)===0?3:2,start:t.indexOf(q),len:q.length};if(q.length>3){for(var i=0;i<=t.length-q.length;i++){var diff=0;for(var j=0;j<q.length;j++){if(t[i+j]!==q[j])diff++}if(diff<=1)return{score:1,start:i,len:q.length}}}return null}
+function highlightMatch(name,match){if(!match)return name;return name.substring(0,match.start)+"<em>"+name.substring(match.start,match.start+match.len)+"</em>"+name.substring(match.start+match.len)}
+searchIn.addEventListener("input",function(){var q=this.value.trim();if(q.length<2){searchDrop.className="search-drop";return}var results=[];P.forEach(function(d,idx){var m=fuzzyMatch(q,d.n);if(m)results.push({idx:idx,d:d,match:m})});results.sort(function(a,b){return b.match.score-a.match.score||a.match.start-b.match.start});results=results.slice(0,8);if(results.length===0){searchDrop.innerHTML='<div class="sr-none">Nessun risultato per &ldquo;'+q+'&rdquo;</div>'}else{searchDrop.innerHTML=results.map(function(r){var co=PC[r.d.pc]||"#999";return '<div class="sr" data-idx="'+r.idx+'"><span class="sr-dot" style="background:'+co+'"></span><div class="sr-name">'+highlightMatch(r.d.n,r.match)+'</div><span class="sr-cat">'+r.d.pc+'</span></div>'}).join("")}searchDrop.className="search-drop vis"});
+searchDrop.addEventListener("click",function(e){var sr=e.target.closest(".sr");if(!sr)return;var idx=parseInt(sr.dataset.idx);var d=P[idx];searchDrop.className="search-drop";searchIn.value=d.n;sw("map");setTimeout(function(){am(null);document.querySelectorAll(".chip").forEach(function(c,i){c.className=i===0?"chip on":"chip";c.style.borderColor=i===0?A:"#e2e8f0";c.style.color=i===0?A:"#94a3b8"});mp.flyTo([d.lat,d.lon],16,{duration:0.8});setTimeout(function(){var found=false;mk.forEach(function(m){if(!found&&m._pidx===idx){m.openPopup();found=true}});if(!found){var co=MC[d.mc]||"#999";L.popup().setLatLng([d.lat,d.lon]).setContent('<div style="font-family:Poppins,sans-serif"><strong style="color:'+co+'">'+d.n+'</strong><br><span style="font-size:12px;color:#64748b">'+d.pc+'</span></div>').openOn(mp)}},900)},200)});
+document.addEventListener("click",function(e){if(!e.target.closest(".search-wrap"))searchDrop.className="search-drop"});
+searchIn.addEventListener("focus",function(){if(this.value.trim().length>=2)this.dispatchEvent(new Event("input"))});
+var mp,mk=[];
+function im(){window._mi=true;mp=L.map("map",{center:[43.715,13.218],zoom:13,scrollWheelZoom:true});L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"\u00a9 OpenStreetMap",maxZoom:18}).addTo(mp);L.geoJSON(BDY,{style:{color:A,weight:2.5,fillColor:A,fillOpacity:0.03,dashArray:"6,4"}}).addTo(mp);var fsBtn=L.control({position:"topright"});fsBtn.onAdd=function(){var d=L.DomUtil.create("div");d.innerHTML='<button class="fs-btn" title="Schermo intero">&#x26F6;</button>';d.firstChild.onclick=function(e){e.preventDefault();e.stopPropagation();var el=document.getElementById("map");if(!document.fullscreenElement){el.requestFullscreen()}else{document.exitFullscreen()}};return d};fsBtn.addTo(mp);BG.forEach(function(b){L.circleMarker([b[1],b[2]],{radius:4,fillColor:"#3AA335",color:"#3AA335",weight:0.8,fillOpacity:0.25}).addTo(mp);L.marker([b[1],b[2]],{icon:L.divIcon({className:"",html:'<div style="font-family:Poppins,sans-serif;font-size:10px;font-weight:500;color:#3AA33599;white-space:nowrap;text-shadow:1px 1px 2px #fff,-1px -1px 2px #fff,1px -1px 2px #fff,-1px 1px 2px #fff">'+b[0]+'</div>',iconAnchor:[0,-6]}),interactive:false}).addTo(mp)});am(null)}
+function am(fc){mk.forEach(function(m){mp.removeLayer(m)});mk=[];P.forEach(function(d,idx){if(fc&&d.mc!==fc)return;var co=MC[d.mc]||"#95a5a6";var lat=d.lat,lon=d.lon;if(d.mc==="Centro"||d.mc==="Farmacie"){lat+=((idx*7919)%1000/1000-0.5)*0.0003;lon+=((idx*6271)%1000/1000-0.5)*0.0003}var m=L.circleMarker([lat,lon],{radius:6,fillColor:co,color:"#fff",weight:1,fillOpacity:0.85}).addTo(mp);m._pidx=idx;m.bindPopup('<div style="font-family:Poppins,sans-serif"><strong style="color:'+co+'">'+d.n+'</strong><br><span style="font-size:12px;color:#64748b">'+d.pc+'</span></div>');mk.push(m)})}
+function fm(cat,el){document.querySelectorAll(".chip").forEach(function(c){c.className="chip";c.style.borderColor="#e2e8f0";c.style.color="#94a3b8"});el.className="chip on";var co=cat?(MC[cat]||"#95a5a6"):A;el.style.borderColor=co;el.style.color=co;am(cat)}
+sw("map");
+</script></body></html>
